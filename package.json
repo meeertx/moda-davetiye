@@ -6,12 +6,28 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "icons": "node scripts/generate-icons.mjs",
+    "check:supabase": "node scripts/check-supabase.mjs",
+    "admin": "node scripts/make-admin.mjs",
+    "state": "node scripts/dump-state.mjs",
+    "e2e": "node scripts/e2e-order-flow.mjs",
+    "e2e:account": "node scripts/e2e-account.mjs",
+    "e2e:invitation": "node scripts/e2e-invitation.mjs",
+    "e2e:http": "node scripts/e2e-http.mjs",
+    "shots": "node scripts/shots.mjs",
+    "shots:tema": "node scripts/shots-invitation.mjs",
+    "contrast": "node scripts/contrast.mjs",
+    "types:supabase": "supabase gen types typescript --linked > src/types/supabase.ts"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.4",
+    "@supabase/supabase-js": "^2.112.2",
     "next": "16.3.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "resend": "^6.18.1",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -20,6 +36,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
+    "playwright": "^1.62.1",
+    "png-to-ico": "^3.0.2",
+    "sharp": "^0.35.3",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

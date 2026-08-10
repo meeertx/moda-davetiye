@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 44" width="300" height="44" role="img" aria-label="Moda Davetiye">
+  <!--
+    Yatay logo: zarf işareti + logotype.
+    NOT: Kelime metin olarak duruyor ve sistem serif'ine düşer. Uygulama
+    içinde marka her zaman Cormorant Garamond ile HTML olarak render edilir
+    (components/marketing/Logo.tsx); bu dosya e-posta/OG gibi dış kullanımlar
+    içindir. Basılı kullanım için yazı tipi yola çevrilmeli.
+  -->
+  <g stroke="#8a5f18" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(2 12) scale(1.15)">
+    <rect x="0.75" y="0.75" width="22.5" height="16.5" rx="1.6"/>
+    <path d="M1 2 L12 9.6 L23 2"/>
+  </g>
+  <text x="40" y="31" font-family="'Cormorant Garamond', Cormorant, Georgia, 'Times New Roman', serif" font-size="30" font-style="italic">
+    <tspan font-weight="400" fill="#271d17">Moda</tspan><tspan font-weight="600" fill="#8a5f18" dx="8">Davetiye</tspan>
+  </text>
+</svg>

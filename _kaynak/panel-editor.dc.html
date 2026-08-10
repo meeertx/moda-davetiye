@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500,600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(97% 0.004 75);} a{color:oklch(48% 0.09 78);text-decoration:none;} input,textarea{font-family:'Work Sans',sans-serif;}</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Work Sans',sans-serif;color:oklch(24% 0.02 50);background:oklch(97% 0.004 75)">
+  <header style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:1px solid oklch(88% 0.01 70);background:oklch(99% 0.002 75)">
+    <a href="panel-davetiyelerim.dc.html" style="font-size:13px;color:oklch(48% 0.015 50)">← Davetiyelerime Dön</a>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;font-weight:600">Elif &amp; Kaan — Belle Époque</div>
+    <div style="font-size:13px;color:oklch(48% 0.015 50)">Adım {{ stepNum }}/8</div>
+  </header>
+
+  <div style="flex:1;display:grid;grid-template-columns:220px 1fr 340px">
+    <aside style="border-right:1px solid oklch(88% 0.01 70);padding:28px 18px;background:oklch(99% 0.002 75)">
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="8">
+        <div style="display:flex;gap:10px;align-items:center;padding:10px 8px;border-radius:6px;background:{{ s.bg }}">
+          <div style="width:20px;height:20px;border-radius:50%;flex-shrink:0;background:{{ s.dotBg }};color:{{ s.dotColor }};font-size:10px;display:flex;align-items:center;justify-content:center">{{ s.num }}</div>
+          <span style="font-size:13px;color:{{ s.textColor }}">{{ s.title }}</span>
+        </div>
+      </sc-for>
+    </aside>
+
+    <main style="padding:40px 48px;max-width:640px">
+      <sc-if value="{{ isStep0 }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:26px;margin:0 0 24px">Temel Bilgiler</h2>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div><div style="font-size:12px;margin-bottom:6px">Gelin Adı</div><input value="Elif" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:14px;background:oklch(99% 0.002 75)"></input></div>
+            <div><div style="font-size:12px;margin-bottom:6px">Damat Adı</div><input value="Kaan" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:14px;background:oklch(99% 0.002 75)"></input></div>
+            <div><div style="font-size:12px;margin-bottom:6px">Düğün Tarihi ve Saati</div><input value="12 Eylül 2026, 18:00" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:14px;background:oklch(99% 0.002 75)"></input></div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:26px;margin:0 0 24px">Konum</h2>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div><div style="font-size:12px;margin-bottom:6px">Mekan Adı</div><input value="Four Seasons Bosphorus" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:14px;background:oklch(99% 0.002 75)"></input></div>
+            <div><div style="font-size:12px;margin-bottom:6px">Açık Adres</div><input value="Çırağan Cad. No:1, Beşiktaş, İstanbul" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:14px;background:oklch(99% 0.002 75)"></input></div>
+            <div style="aspect-ratio:16/9;background:repeating-linear-gradient(45deg, oklch(93% 0.01 70) 0 12px, oklch(97% 0.006 70) 12px 24px);border-radius:6px;display:flex;align-items:center;justify-content:center;color:oklch(50% 0.02 60);font-family:'Work Sans',monospace;font-size:11px;text-transform:uppercase">harita önizleme</div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:26px;margin:0 0 24px">Program</h2>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ programItems }}" as="p" hint-placeholder-count="3">
+              <div style="display:flex;gap:12px;align-items:center;background:oklch(99% 0.002 75);border:1px solid oklch(88% 0.01 70);border-radius:6px;padding:12px 14px">
+                <span style="cursor:grab;color:oklch(60% 0.01 60)">⠿</span>
+                <input value="{{ p.time }}" style="width:90px;padding:8px 10px;border:1px solid oklch(88% 0.01 70);border-radius:4px;font-size:13px"></input>
+                <input value="{{ p.title }}" style="flex:1;padding:8px 10px;border:1px solid oklch(88% 0.01 70);border-radius:4px;font-size:13px"></input>
+              </div>
+            </sc-for>
+            <button style="cursor:pointer;padding:10px;border:1px dashed oklch(70% 0.01 60);background:transparent;border-radius:6px;font-size:13px;color:oklch(48% 0.015 50)">+ Program Ekle</button>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:26px;margin:0 0 24px">Hikaye + Fotoğraf</h2>
+          <textarea style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:14px;background:oklch(99% 0.002 75);min-height:110px;margin-bottom:20px">Üniversitede bir kütüphane rafında başlayan hikayemiz...</textarea>
+          <div style="font-size:12px;color:oklch(48% 0.015 50);margin-bottom:10px">Fotoğraf Galerisi — paketinizde en fazla 12 fotoğraf yükleyebilirsiniz (4/12 kullanıldı)</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+            <sc-for list="{{ photoSlots }}" as="ph" hint-placeholder-count="4">
+              <div style="aspect-ratio:1;border:1px dashed oklch(75% 0.01 60);border-radius:6px;display:flex;align-items:center;justify-content:center;color:oklch(55% 0.01 60);font-size:20px">+</div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:26px;margin:0 0 24px">Müzik</h2>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+            <sc-for list="{{ musicOptions }}" as="m" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid {{ m.borderColor }};background:{{ m.bg }};border-radius:6px">
+                <div style="width:32px;height:32px;border-radius:50%;background:oklch(24% 0.02 50);color:oklch(66% 0.1 75);display:flex;align-items:center;justify-content:center;font-size:12px">▶</div>
+                <span style="font-size:14px;flex:1">{{ m.name }}</span>
+                <sc-if value="{{ m.selected }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:oklch(52% 0.1 75)">Seçildi</span></sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div style="font-size:12px;color:oklch(48% 0.015 50)">veya kendi MP3 dosyanızı yükleyin (maks. 8 MB)</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isStep5 }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:26px;margin:0 0 24px">RSVP Ayarları</h2>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div><div style="font-size:12px;margin-bottom:6px">Yanıt Son Tarihi</div><input value="01 Eylül 2026" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:14px;background:oklch(99% 0.002 75)"></input></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0"><span style="font-size:14px">+1 (eş/refakatçi) izni</span><div style="width:40px;height:22px;border-radius:12px;background:oklch(52% 0.1 75);position:relative"><div style="width:16px;height:16px;border-radius:50%;background:white;position:absolute;top:3px;right:3px"></div></div></div>
+            <div style="font-size:12px;color:oklch(48% 0.015 50);margin-top:8px">Özel Sorular</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <input value="Menü tercihiniz? (Et / Vejetaryen)" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:14px;background:oklch(99% 0.002 75)"></input>
+              <button style="cursor:pointer;padding:10px;border:1px dashed oklch(70% 0.01 60);background:transparent;border-radius:6px;font-size:13px;color:oklch(48% 0.015 50)">+ Soru Ekle</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isStep6 }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:26px;margin:0 0 24px">Hediye / IBAN</h2>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div><div style="font-size:12px;margin-bottom:6px">Not (opsiyonel)</div><input value="Varlığınız en güzel hediyemiz olacak." style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:14px;background:oklch(99% 0.002 75)"></input></div>
+            <div><div style="font-size:12px;margin-bottom:6px">IBAN</div><input placeholder="TR__ ____ ____ ____ ____ ____ __" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:14px;background:oklch(99% 0.002 75)"></input></div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isStep7 }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:26px;margin:0 0 24px">Gözden Geçir &amp; Yayınla</h2>
+          <div><div style="font-size:12px;margin-bottom:6px">Davetiye Linki</div>
+            <div style="display:flex;gap:10px"><span style="flex:1;padding:12px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:14px;background:oklch(99% 0.002 75);color:oklch(48% 0.015 50)">meram.co/davetiye/</span><input value="elif-kaan" style="width:140px;padding:12px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:14px;background:oklch(99% 0.002 75)"></input></div>
+          </div>
+          <a href="davetiye.dc.html" style="display:block;text-align:center;margin-top:28px;background:oklch(24% 0.02 50);color:oklch(98% 0.006 75);padding:16px;border-radius:6px;font-size:14px">Yayınla</a>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;justify-content:space-between;margin-top:40px">
+        <button onClick="{{ prevStep }}" style="cursor:pointer;padding:12px 22px;border:1px solid oklch(88% 0.01 70);background:transparent;border-radius:6px;font-size:13px">Geri</button>
+        <button onClick="{{ nextStep }}" style="cursor:pointer;padding:12px 22px;border:1px solid oklch(24% 0.02 50);background:oklch(24% 0.02 50);color:oklch(98% 0.006 75);border-radius:6px;font-size:13px">Kaydet ve Devam Et</button>
+      </div>
+    </main>
+
+    <aside style="border-left:1px solid oklch(88% 0.01 70);padding:32px 24px;background:oklch(99% 0.002 75);display:flex;flex-direction:column;align-items:center">
+      <div style="font-size:12px;letter-spacing:0.03em;text-transform:uppercase;color:oklch(48% 0.015 50);margin-bottom:16px">Canlı Önizleme</div>
+      <div style="width:220px;height:440px;border:8px solid oklch(24% 0.02 50);border-radius:22px;overflow:hidden;background:oklch(24% 0.02 50)">
+        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:oklch(96% 0.006 75);padding:16px;text-align:center">
+          <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:oklch(66% 0.1 75);margin-bottom:10px">Düğün Davetiyesi</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:24px;margin-bottom:8px">Elif &amp; Kaan</div>
+          <div style="font-size:11px;color:oklch(80% 0.008 75)">12 Eylül 2026 · İstanbul</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const STEP_TITLES = ['Temel Bilgiler','Konum','Program','Hikaye + Fotoğraf','Müzik','RSVP Ayarları','Hediye/IBAN','Gözden Geçir'];
+class Component extends DCLogic {
+  state = { step:0 };
+  nextStep = () => this.setState(s => ({ step: Math.min(7, s.step+1) }));
+  prevStep = () => this.setState(s => ({ step: Math.max(0, s.step-1) }));
+  renderVals(){
+    const { step } = this.state;
+    const steps = STEP_TITLES.map((title,i)=>({
+      num:i+1, title,
+      bg: i===step ? 'oklch(97% 0.004 75)' : 'transparent',
+      dotBg: i<step ? 'oklch(52% 0.1 75)' : (i===step ? 'oklch(24% 0.02 50)' : 'oklch(90% 0.006 70)'),
+      dotColor: i<=step ? 'oklch(98% 0.006 75)' : 'oklch(50% 0.015 50)',
+      textColor: i===step ? 'oklch(24% 0.02 50)' : 'oklch(50% 0.015 50)',
+    }));
+    return {
+      steps, stepNum: step+1,
+      isStep0: step===0, isStep1: step===1, isStep2: step===2, isStep3: step===3,
+      isStep4: step===4, isStep5: step===5, isStep6: step===6, isStep7: step===7,
+      nextStep: this.nextStep, prevStep: this.prevStep,
+      programItems: [ {time:'16:00', title:'Nikah Töreni'}, {time:'18:00', title:'Kokteyl'}, {time:'19:30', title:'Yemek ve Dans'} ],
+      photoSlots: Array.from({length:4}),
+      musicOptions: [ {name:'Canon in D — Piano', selected:true, bg:'oklch(96% 0.03 78)', borderColor:'oklch(52% 0.1 75)'}, {name:'A Thousand Years — Enstrümantal', selected:false, bg:'oklch(99% 0.002 75)', borderColor:'oklch(88% 0.01 70)'}, {name:'Kendi Şarkımız — Akustik', selected:false, bg:'oklch(99% 0.002 75)', borderColor:'oklch(88% 0.01 70)'} ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>

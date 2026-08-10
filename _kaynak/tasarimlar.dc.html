@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500,600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(98% 0.006 75);} a{color:oklch(48% 0.09 78);text-decoration:none;} a:hover{color:oklch(38% 0.09 78);}</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Work Sans',sans-serif;color:oklch(24% 0.02 50);background:oklch(98% 0.006 75)">
+  <header style="position:sticky;top:0;z-index:50;background:oklch(98% 0.006 75 / 0.95);backdrop-filter:blur(8px);border-bottom:1px solid oklch(89% 0.01 65)">
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;column-gap:16px;padding:18px 32px;max-width:1600px;margin:0 auto">
+      <nav style="display:flex;gap:20px;min-width:0;overflow:hidden">
+        <a href="Dijital Davetiye Platformu.dc.html" style="font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Ana Sayfa</a>
+        <a href="tasarimlar.dc.html" style="font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(24% 0.02 50);font-weight:600;white-space:nowrap">Tasarımlar</a>
+        <a href="fiyatlar.dc.html" style="font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Fiyatlar</a>
+      </nav>
+      <a href="Dijital Davetiye Platformu.dc.html" style="display:flex;align-items:center;gap:7px;font-family:'Cormorant Garamond',serif;font-size:23px;font-style:italic;font-weight:600;color:oklch(24% 0.02 50);white-space:nowrap;justify-self:center">
+        <span style="width:18px;height:18px;border:1.5px solid oklch(52% 0.1 75);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:oklch(52% 0.1 75);font-style:normal">M</span>
+        Meram
+      </a>
+      <nav style="display:flex;gap:20px;justify-content:flex-end;align-items:center;min-width:0;overflow:hidden">
+        <a href="iletisim.dc.html" style="font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">İletişim</a>
+        <a href="yorumlar.dc.html" style="font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Yorumlar</a>
+        <a href="hakkimizda.dc.html" style="font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Hakkımızda</a>
+        <div style="width:1px;height:14px;background:oklch(89% 0.01 65);flex-shrink:0"></div>
+        <a href="giris.dc.html" style="font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(24% 0.02 50);white-space:nowrap">Giriş Yap</a>
+      </nav>
+    </div>
+    <div style="display:flex;justify-content:center;gap:44px;padding:13px 0;border-top:1px solid oklch(92% 0.006 70)">
+      <a href="tasarimlar.dc.html?cat=dugun_nisan" style="font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Düğün &amp; Nişan</a>
+      <a href="tasarimlar.dc.html?cat=kina" style="font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Kına Gecesi</a>
+      <a href="tasarimlar.dc.html?cat=save_the_date" style="font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Save the Date</a>
+      <a href="tasarimlar.dc.html" style="font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Koleksiyonlar</a>
+    </div>
+  </header>
+  <main style="padding:56px 56px 110px;max-width:1400px;margin:0 auto;width:100%;box-sizing:border-box">
+    <div style="margin-bottom:8px;font-size:13px"><a href="Dijital Davetiye Platformu.dc.html" style="color:oklch(52% 0.1 75)">Ana Sayfa</a> <span style="color:oklch(70% 0.01 60)">/</span> <span style="color:oklch(48% 0.015 50)">Tasarımlar</span></div>
+    <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:44px;margin:8px 0 32px">Tema Galerisi</h1>
+    <div style="display:flex;gap:10px;margin-bottom:40px;flex-wrap:wrap">
+      <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="5">
+        <button onClick="{{ cat.select }}" style="cursor:pointer;border:1px solid {{ cat.borderColor }};background:{{ cat.bg }};color:{{ cat.color }};font-family:'Work Sans',sans-serif;font-size:13px;padding:10px 20px;border-radius:20px">{{ cat.label }}</button>
+      </sc-for>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px">
+      <sc-for list="{{ filteredThemes }}" as="theme" hint-placeholder-count="6">
+        <a href="tasarim-detay.dc.html?slug={{ theme.slug }}" style="display:block;color:inherit;background:oklch(99% 0.004 80);border:1px solid oklch(89% 0.01 65);border-radius:4px;overflow:hidden;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-8px);box-shadow:0 30px 44px -20px oklch(24% 0.02 50 / 0.22)">
+          <div style="width:100%;aspect-ratio:4/5;background:{{ theme.stripe }};display:flex;align-items:center;justify-content:center;color:oklch(45% 0.02 60);font-family:'Work Sans',monospace;font-size:10px;text-transform:uppercase">tema görseli</div>
+          <div style="padding:18px 20px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+              <div style="font-size:11px;text-transform:uppercase;color:oklch(52% 0.1 75)">{{ theme.categoryLabel }}</div>
+              <div style="font-size:11px;color:oklch(48% 0.015 50)">{{ theme.tierLabel }}</div>
+            </div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;margin-bottom:6px">{{ theme.name }}</div>
+            <div style="font-size:13px;color:oklch(48% 0.015 50);line-height:1.5">{{ theme.blurb }}</div>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </main>
+  <footer style="margin-top:auto;padding:48px 56px;background:oklch(24% 0.02 50);color:oklch(70% 0.008 75);display:flex;justify-content:space-between;font-size:13px">
+    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:oklch(96% 0.006 75)">Meram.</div>
+    <div>© 2026 Meram Davetiye</div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const THEMES = [
+  { slug:'belle-epoque', name:'Belle Époque', category:'dugun', categoryLabel:'Düğün', tierLabel:'Standart+', blurb:'Vintage zarafet, yaldız detaylar.', stripe:'repeating-linear-gradient(45deg, oklch(93% 0.02 78) 0 12px, oklch(97% 0.012 78) 12px 24px)' },
+  { slug:'kalp-cizgisi', name:'Kalp Çizgisi', category:'dugun', categoryLabel:'Düğün', tierLabel:'Başlangıç+', blurb:'Modern, sade çizgisel tasarım.', stripe:'repeating-linear-gradient(90deg, oklch(95% 0.006 75) 0 16px, oklch(98% 0.004 75) 16px 32px)' },
+  { slug:'zeytin-bahcesi', name:'Zeytin Bahçesi', category:'nisan', categoryLabel:'Nişan', tierLabel:'Standart+', blurb:'Ege esintili, zeytin yeşili doku.', stripe:'repeating-linear-gradient(45deg, oklch(88% 0.05 140) 0 12px, oklch(94% 0.03 140) 12px 24px)' },
+  { slug:'kirmizi-kina', name:'Kırmızı Kına', category:'kina', categoryLabel:'Kına', tierLabel:'Premium', blurb:'Geleneksel motifler, canlı kırmızı.', stripe:'repeating-linear-gradient(45deg, oklch(45% 0.14 25) 0 12px, oklch(50% 0.13 25) 12px 24px)' },
+  { slug:'soz-vakti', name:'Söz Vakti', category:'save_the_date', categoryLabel:'Save the Date', tierLabel:'Başlangıç+', blurb:'Lacivert, kısa ve öz duyuru.', stripe:'repeating-linear-gradient(90deg, oklch(30% 0.04 260) 0 14px, oklch(35% 0.035 260) 14px 28px)' },
+  { slug:'mermer-yaldiz', name:'Mermer & Yaldız', category:'dugun', categoryLabel:'Düğün', tierLabel:'Premium', blurb:'Siyah mermer dokusu, yaldız çizgiler.', stripe:'repeating-linear-gradient(120deg, oklch(20% 0.01 50) 0 10px, oklch(26% 0.015 50) 10px 20px, oklch(20% 0.01 50) 20px 30px)' },
+  { slug:'nisan-cemberi', name:'Nişan Çemberi', category:'nisan', categoryLabel:'Nişan', tierLabel:'Standart+', blurb:'Pudra pembesi, dairesel çerçeveler.', stripe:'repeating-linear-gradient(45deg, oklch(90% 0.04 20) 0 12px, oklch(95% 0.025 20) 12px 24px)' },
+];
+const CATS = [
+  { key:'all', label:'Tümü' }, { key:'dugun_nisan', label:'Düğün & Nişan' }, { key:'kina', label:'Kına' }, { key:'save_the_date', label:'Save the Date' },
+];
+class Component extends DCLogic {
+  state = { category:'all' };
+  componentDidMount(){
+    const c = new URLSearchParams(window.location.search).get('cat');
+    if (c) this.setState({ category:c });
+  }
+  setCategory(key){ this.setState({ category:key }); }
+  renderVals(){
+    const { category } = this.state;
+    const filteredThemes = category==='all' ? THEMES
+      : category==='dugun_nisan' ? THEMES.filter(t=>t.category==='dugun'||t.category==='nisan')
+      : THEMES.filter(t=>t.category===category);
+    return {
+      filteredThemes,
+      categories: CATS.map(c => ({
+        label:c.label, select:()=>this.setCategory(c.key),
+        bg: category===c.key ? 'oklch(24% 0.02 50)' : 'transparent',
+        color: category===c.key ? 'oklch(98% 0.006 75)' : 'oklch(24% 0.02 50)',
+        borderColor: category===c.key ? 'oklch(24% 0.02 50)' : 'oklch(89% 0.01 65)',
+      })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

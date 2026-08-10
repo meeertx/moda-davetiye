@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500,600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(98% 0.006 75);} a{color:oklch(48% 0.09 78);text-decoration:none;} a:hover{color:oklch(38% 0.09 78);}</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Work Sans',sans-serif;color:oklch(24% 0.02 50);background:oklch(98% 0.006 75)">
+  <header style="position:sticky;top:0;z-index:50;background:oklch(98% 0.006 75 / 0.95);backdrop-filter:blur(8px);border-bottom:1px solid oklch(89% 0.01 65)">
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;column-gap:16px;padding:18px 32px;max-width:1600px;margin:0 auto">
+      <nav style="display:flex;gap:20px;min-width:0;overflow:hidden">
+        <a href="Dijital Davetiye Platformu.dc.html" style="font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Ana Sayfa</a>
+        <a href="tasarimlar.dc.html" style="font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(24% 0.02 50);font-weight:600;white-space:nowrap">Tasarımlar</a>
+        <a href="fiyatlar.dc.html" style="font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Fiyatlar</a>
+      </nav>
+      <a href="Dijital Davetiye Platformu.dc.html" style="display:flex;align-items:center;gap:7px;font-family:'Cormorant Garamond',serif;font-size:23px;font-style:italic;font-weight:600;color:oklch(24% 0.02 50);white-space:nowrap;justify-self:center">
+        <span style="width:18px;height:18px;border:1.5px solid oklch(52% 0.1 75);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:oklch(52% 0.1 75);font-style:normal">M</span>
+        Meram
+      </a>
+      <nav style="display:flex;gap:20px;justify-content:flex-end;align-items:center;min-width:0;overflow:hidden">
+        <a href="iletisim.dc.html" style="font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">İletişim</a>
+        <a href="yorumlar.dc.html" style="font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Yorumlar</a>
+        <a href="hakkimizda.dc.html" style="font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Hakkımızda</a>
+        <div style="width:1px;height:14px;background:oklch(89% 0.01 65);flex-shrink:0"></div>
+        <a href="giris.dc.html" style="font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(24% 0.02 50);white-space:nowrap">Giriş Yap</a>
+      </nav>
+    </div>
+    <div style="display:flex;justify-content:center;gap:44px;padding:13px 0;border-top:1px solid oklch(92% 0.006 70)">
+      <a href="tasarimlar.dc.html?cat=dugun_nisan" style="font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Düğün &amp; Nişan</a>
+      <a href="tasarimlar.dc.html?cat=kina" style="font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Kına Gecesi</a>
+      <a href="tasarimlar.dc.html?cat=save_the_date" style="font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Save the Date</a>
+      <a href="tasarimlar.dc.html" style="font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:oklch(40% 0.015 50);white-space:nowrap">Koleksiyonlar</a>
+    </div>
+  </header>
+  <main style="padding:56px 56px 110px;max-width:1300px;margin:0 auto;width:100%;box-sizing:border-box">
+    <div style="margin-bottom:8px;font-size:13px"><a href="Dijital Davetiye Platformu.dc.html" style="color:oklch(52% 0.1 75)">Ana Sayfa</a> <span style="color:oklch(70% 0.01 60)">/</span> <a href="tasarimlar.dc.html" style="color:oklch(52% 0.1 75)">Tasarımlar</a> <span style="color:oklch(70% 0.01 60)">/</span> <span style="color:oklch(48% 0.015 50)">{{ theme.name }}</span></div>
+    <div style="display:grid;grid-template-columns:420px 1fr;gap:64px;margin-top:32px">
+      <div style="position:relative">
+        <div style="width:100%;aspect-ratio:4/5;background:{{ theme.stripe }};border-radius:6px;display:flex;align-items:center;justify-content:center;color:oklch(45% 0.02 60);font-family:'Work Sans',monospace;font-size:11px;text-transform:uppercase">canlı önizleme videosu</div>
+        <div style="position:absolute;top:16px;left:16px;width:44px;height:44px;border-radius:50%;background:oklch(98% 0.006 75 / 0.9);display:flex;align-items:center;justify-content:center;font-size:14px">▶</div>
+      </div>
+      <div>
+        <div style="font-size:13px;text-transform:uppercase;color:oklch(52% 0.1 75);margin-bottom:12px">{{ theme.categoryLabel }}</div>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:46px;margin:0 0 18px">{{ theme.name }}</h1>
+        <p style="font-size:16px;line-height:1.7;color:oklch(48% 0.015 50);max-width:520px;margin:0 0 32px">{{ theme.longDesc }}</p>
+        <div style="display:flex;gap:14px;margin-bottom:40px">
+          <a href="{{ buyHref }}" style="border:none;background:oklch(24% 0.02 50);color:oklch(98% 0.006 75);font-size:14px;padding:16px 30px;border-radius:2px;transition:transform .25s,box-shadow .25s" style-hover="transform:translateY(-2px);box-shadow:0 16px 26px -12px oklch(24% 0.02 50 / 0.4)">Bu Temayı Satın Al</a>
+          <a href="davetiye.dc.html" style="border:1px solid oklch(24% 0.02 50);background:transparent;color:oklch(24% 0.02 50);font-size:14px;padding:16px 30px;border-radius:2px">Ücretsiz Dene</a>
+        </div>
+        <div style="border-top:1px solid oklch(89% 0.01 65);padding-top:28px">
+          <div style="font-size:13px;text-transform:uppercase;color:oklch(24% 0.02 50);margin-bottom:16px">Bu Temada Neler Var</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <sc-for list="{{ theme.features }}" as="f" hint-placeholder-count="6">
+              <div style="font-size:14px;color:oklch(40% 0.015 50);display:flex;gap:8px"><span style="color:oklch(52% 0.1 75)">—</span>{{ f }}</div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer style="margin-top:auto;padding:48px 56px;background:oklch(24% 0.02 50);color:oklch(70% 0.008 75);display:flex;justify-content:space-between;font-size:13px">
+    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:oklch(96% 0.006 75)">Meram.</div>
+    <div>© 2026 Meram Davetiye</div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const THEMES = {
+  'belle-epoque': { name:'Belle Époque', categoryLabel:'Düğün', stripe:'repeating-linear-gradient(45deg, oklch(93% 0.02 78) 0 12px, oklch(97% 0.012 78) 12px 24px)', longDesc:'Belle Époque, ipek dokulu arka planlar ve ince yaldız çizgilerle klasik bir düğün havası sunar. Serif başlıklar ve yumuşak geçiş animasyonlarıyla davetinizi bir davet kartı zarafetinde dijitale taşır.', features:['Geri sayım','Müzik oynatıcı','Harita/konum','Fotoğraf galerisi','RSVP formu','Program/timeline'] },
+  'kalp-cizgisi': { name:'Kalp Çizgisi', categoryLabel:'Düğün', stripe:'repeating-linear-gradient(90deg, oklch(95% 0.006 75) 0 16px, oklch(98% 0.004 75) 16px 32px)', longDesc:'Tek çizgi illüstrasyon estetiğiyle minimal ve modern bir düğün deneyimi. Bol beyaz alan, ince tipografi ve yumuşak kaydırma efektleriyle sade ama unutulmaz.', features:['Geri sayım','Harita/konum','Fotoğraf galerisi','RSVP formu'] },
+  'zeytin-bahcesi': { name:'Zeytin Bahçesi', categoryLabel:'Nişan', stripe:'repeating-linear-gradient(45deg, oklch(88% 0.05 140) 0 12px, oklch(94% 0.03 140) 12px 24px)', longDesc:'Zeytin yaprağı motifleri ve toprak tonlarıyla Ege kıyısında bir nişan atmosferi. Doğal dokular ve sıcak aydınlatma hissi veren renk paleti.', features:['Geri sayım','Müzik oynatıcı','Harita/konum','Fotoğraf galerisi','RSVP formu','Program/timeline'] },
+  'kirmizi-kina': { name:'Kırmızı Kına', categoryLabel:'Kına', stripe:'repeating-linear-gradient(45deg, oklch(45% 0.14 25) 0 12px, oklch(50% 0.13 25) 12px 24px)', longDesc:'Geleneksel kına gecesi ruhunu canlı kırmızı ve yaldız işlemeli motiflerle yansıtır. Ritmik animasyonlar ve özel müzik kütüphanesiyle eğlenceli bir davet deneyimi.', features:['Geri sayım','Müzik oynatıcı','Fotoğraf galerisi','RSVP formu','Program/timeline','Özel davetli notu'] },
+  'soz-vakti': { name:'Söz Vakti', categoryLabel:'Save the Date', stripe:'repeating-linear-gradient(90deg, oklch(30% 0.04 260) 0 14px, oklch(35% 0.035 260) 14px 28px)', longDesc:'Tarih duyurusu için tasarlanmış, lacivert zemin üzerine krem tipografiyle sakin ve şık bir save-the-date. Tek ekranlık, hızlı yüklenen deneyim.', features:['Geri sayım','Harita/konum','Takvime ekle'] },
+  'mermer-yaldiz': { name:'Mermer & Yaldız', categoryLabel:'Düğün', stripe:'repeating-linear-gradient(120deg, oklch(20% 0.01 50) 0 10px, oklch(26% 0.015 50) 10px 20px, oklch(20% 0.01 50) 20px 30px)', longDesc:'Koyu mermer dokusu ve ince yaldız çizgileriyle en prestijli temamız. Video arka plan desteği ve özel davetli galerisiyle üst segment düğünler için tasarlandı.', features:['Geri sayım','Müzik oynatıcı','Harita/konum','Fotoğraf galerisi','RSVP formu','Program/timeline','Hediye/IBAN bilgisi'] },
+  'nisan-cemberi': { name:'Nişan Çemberi', categoryLabel:'Nişan', stripe:'repeating-linear-gradient(45deg, oklch(90% 0.04 20) 0 12px, oklch(95% 0.025 20) 12px 24px)', longDesc:'Pudra pembesi tonlar ve dairesel çerçeve motifleriyle romantik bir nişan davetiyesi. Fotoğraf odaklı galeri düzeni ön plandadır.', features:['Geri sayım','Fotoğraf galerisi','RSVP formu','Program/timeline'] },
+};
+class Component extends DCLogic {
+  state = { slug:'belle-epoque' };
+  componentDidMount(){
+    const p = new URLSearchParams(window.location.search).get('slug');
+    if (p && THEMES[p]) this.setState({ slug:p });
+  }
+  renderVals(){
+    const theme = THEMES[this.state.slug] || THEMES['belle-epoque'];
+    return { theme, buyHref: 'satin-al.dc.html?slug='+this.state.slug+'&paket=standart' };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500,600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(97% 0.004 75);} a{color:oklch(48% 0.09 78);text-decoration:none;} input{font-family:'Work Sans',sans-serif;}</style>
+</helmet>
+<div style="min-height:100vh;display:flex;font-family:'Work Sans',sans-serif;color:oklch(24% 0.02 50);background:oklch(97% 0.004 75)">
+  <aside style="width:240px;flex-shrink:0;background:oklch(99% 0.002 75);border-right:1px solid oklch(88% 0.01 70);padding:28px 20px;display:flex;flex-direction:column;gap:4px">
+    <a href="Dijital Davetiye Platformu.dc.html" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;font-weight:600;color:oklch(24% 0.02 50);margin-bottom:32px;padding:0 8px">Meram<span style="color:oklch(52% 0.1 75)">.</span></a>
+    <a href="panel.dc.html" style="padding:11px 12px;border-radius:8px;font-size:14px;color:oklch(24% 0.02 50)">Genel Bakış</a>
+    <a href="panel-davetiyelerim.dc.html" style="padding:11px 12px;border-radius:8px;font-size:14px;color:oklch(24% 0.02 50)">Davetiyelerim</a>
+    <a href="panel-rsvp.dc.html" style="padding:11px 12px;border-radius:8px;font-size:14px;background:oklch(24% 0.02 50);color:oklch(98% 0.006 75)">RSVP &amp; İstatistik</a>
+    <a href="panel-ayarlar.dc.html" style="padding:11px 12px;border-radius:8px;font-size:14px;color:oklch(24% 0.02 50)">Ayarlar</a>
+    <div style="margin-top:auto;padding:0 8px;font-size:12px;color:oklch(55% 0.015 50)">Elif Kaya<br></br>elif@eposta.com</div>
+  </aside>
+  <main style="flex:1;padding:40px 48px;max-width:1200px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px">
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:32px;margin:0">RSVP &amp; İstatistik</h1>
+      <button style="cursor:pointer;padding:10px 18px;border:1px solid oklch(24% 0.02 50);border-radius:6px;font-size:13px;background:transparent">CSV Olarak İndir</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px">
+      <div style="background:oklch(99% 0.002 75);border:1px solid oklch(88% 0.01 70);border-radius:10px;padding:18px"><div style="font-size:12px;color:oklch(48% 0.015 50);margin-bottom:6px">Toplam Yanıt</div><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600">142</div></div>
+      <div style="background:oklch(99% 0.002 75);border:1px solid oklch(88% 0.01 70);border-radius:10px;padding:18px"><div style="font-size:12px;color:oklch(48% 0.015 50);margin-bottom:6px">Katılıyor</div><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:oklch(35% 0.08 145)">126</div></div>
+      <div style="background:oklch(99% 0.002 75);border:1px solid oklch(88% 0.01 70);border-radius:10px;padding:18px"><div style="font-size:12px;color:oklch(48% 0.015 50);margin-bottom:6px">Katılamıyor</div><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:oklch(45% 0.1 30)">16</div></div>
+      <div style="background:oklch(99% 0.002 75);border:1px solid oklch(88% 0.01 70);border-radius:10px;padding:18px"><div style="font-size:12px;color:oklch(48% 0.015 50);margin-bottom:6px">Toplam Kişi</div><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600">318</div></div>
+    </div>
+
+    <input placeholder="Misafir ara..." style="width:280px;padding:10px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:13px;background:oklch(99% 0.002 75);margin-bottom:16px"></input>
+
+    <div style="background:oklch(99% 0.002 75);border:1px solid oklch(88% 0.01 70);border-radius:10px;overflow:hidden">
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 2fr 1fr;padding:14px 20px;font-size:12px;letter-spacing:0.03em;text-transform:uppercase;color:oklch(48% 0.015 50);border-bottom:1px solid oklch(88% 0.01 70)">
+        <div>Misafir</div><div>Durum</div><div>Kişi Sayısı</div><div>Not</div><div>Tarih</div>
+      </div>
+      <sc-for list="{{ rsvps }}" as="r" hint-placeholder-count="6">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 2fr 1fr;padding:14px 20px;font-size:13.5px;border-bottom:1px solid oklch(92% 0.005 70);align-items:center">
+          <div>{{ r.name }}</div>
+          <div><span style="font-size:11px;background:{{ r.badgeBg }};color:{{ r.badgeColor }};padding:3px 10px;border-radius:10px">{{ r.statusLabel }}</span></div>
+          <div>{{ r.count }}</div>
+          <div style="color:oklch(48% 0.015 50)">{{ r.note }}</div>
+          <div style="color:oklch(48% 0.015 50)">{{ r.date }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals(){
+    const raw = [
+      { name:'Zeynep Arslan', attending:true, count:2, note:'Vejetaryen menü rica ederiz.', date:'02 Ağu' },
+      { name:'Burak Yıldız', attending:true, count:1, note:'—', date:'01 Ağu' },
+      { name:'Selin & Onur Demir', attending:false, count:0, note:'O tarihte şehir dışındayız, üzgünüz.', date:'30 Tem' },
+      { name:'Ayşe Koç', attending:true, count:4, note:'Ailemle geliyoruz.', date:'28 Tem' },
+      { name:'Kerem Aydın', attending:true, count:1, note:'—', date:'27 Tem' },
+      { name:'Deniz Şahin', attending:false, count:0, note:'—', date:'25 Tem' },
+    ];
+    return { rsvps: raw.map(r => ({ ...r,
+      statusLabel: r.attending ? 'Katılıyor' : 'Katılamıyor',
+      badgeBg: r.attending ? 'oklch(88% 0.06 145)' : 'oklch(90% 0.02 30)',
+      badgeColor: r.attending ? 'oklch(35% 0.08 145)' : 'oklch(45% 0.1 30)',
+    })) };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500,600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(97% 0.004 75);} a{color:oklch(48% 0.09 78);text-decoration:none;}</style>
+</helmet>
+<div style="min-height:100vh;display:flex;font-family:'Work Sans',sans-serif;color:oklch(24% 0.02 50);background:oklch(97% 0.004 75)">
+  <aside style="width:240px;flex-shrink:0;background:oklch(99% 0.002 75);border-right:1px solid oklch(88% 0.01 70);padding:28px 20px;display:flex;flex-direction:column;gap:4px">
+    <a href="Dijital Davetiye Platformu.dc.html" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;font-weight:600;color:oklch(24% 0.02 50);margin-bottom:32px;padding:0 8px">Meram<span style="color:oklch(52% 0.1 75)">.</span></a>
+    <a href="panel.dc.html" style="padding:11px 12px;border-radius:8px;font-size:14px;color:oklch(24% 0.02 50)">Genel Bakış</a>
+    <a href="panel-davetiyelerim.dc.html" style="padding:11px 12px;border-radius:8px;font-size:14px;background:oklch(24% 0.02 50);color:oklch(98% 0.006 75)">Davetiyelerim</a>
+    <a href="panel-rsvp.dc.html" style="padding:11px 12px;border-radius:8px;font-size:14px;color:oklch(24% 0.02 50)">RSVP &amp; İstatistik</a>
+    <a href="panel-ayarlar.dc.html" style="padding:11px 12px;border-radius:8px;font-size:14px;color:oklch(24% 0.02 50)">Ayarlar</a>
+    <div style="margin-top:auto;padding:0 8px;font-size:12px;color:oklch(55% 0.015 50)">Elif Kaya<br></br>elif@eposta.com</div>
+  </aside>
+  <main style="flex:1;padding:40px 48px;max-width:1200px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px">
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:32px;margin:0">Davetiyelerim</h1>
+      <a href="tasarimlar.dc.html" style="border:1px solid oklch(24% 0.02 50);color:oklch(24% 0.02 50);padding:10px 18px;border-radius:6px;font-size:13px">+ Yeni Davetiye</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <sc-for list="{{ invitations }}" as="inv" hint-placeholder-count="3">
+        <div style="background:oklch(99% 0.002 75);border:1px solid oklch(88% 0.01 70);border-radius:10px;padding:20px;display:flex;gap:20px;align-items:center">
+          <div style="width:64px;height:80px;flex-shrink:0;border-radius:6px;background:{{ inv.stripe }}"></div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600">{{ inv.title }}</div>
+              <span style="font-size:11px;background:{{ inv.badgeBg }};color:{{ inv.badgeColor }};padding:3px 10px;border-radius:10px">{{ inv.statusLabel }}</span>
+            </div>
+            <div style="font-size:13px;color:oklch(48% 0.015 50)">{{ inv.meta }}</div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <a href="panel-editor.dc.html" style="padding:10px 16px;border:1px solid oklch(24% 0.02 50);border-radius:6px;font-size:13px;color:oklch(24% 0.02 50)">Düzenle</a>
+            <a href="panel-rsvp.dc.html" style="padding:10px 16px;border:1px solid oklch(24% 0.02 50);border-radius:6px;font-size:13px;color:oklch(24% 0.02 50)">RSVP</a>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals(){
+    return { invitations: [
+      { title:'Elif & Kaan — Belle Époque', meta:'meram.co/davetiye/elif-kaan · 12 Eylül 2026', statusLabel:'Yayında', badgeBg:'oklch(88% 0.06 145)', badgeColor:'oklch(35% 0.08 145)', stripe:'repeating-linear-gradient(45deg, oklch(93% 0.02 78) 0 12px, oklch(97% 0.012 78) 12px 24px)' },
+      { title:'Sude — Kırmızı Kına', meta:'taslak · henüz yayınlanmadı', statusLabel:'Taslak', badgeBg:'oklch(90% 0.02 70)', badgeColor:'oklch(45% 0.02 60)', stripe:'repeating-linear-gradient(45deg, oklch(45% 0.14 25) 0 12px, oklch(50% 0.13 25) 12px 24px)' },
+      { title:'Ada & Mert — Söz Vakti', meta:'meram.co/davetiye/ada-mert · süresi doldu', statusLabel:'Süresi Doldu', badgeBg:'oklch(90% 0.02 30)', badgeColor:'oklch(45% 0.1 30)', stripe:'repeating-linear-gradient(90deg, oklch(30% 0.04 260) 0 14px, oklch(35% 0.035 260) 14px 28px)' },
+    ] };
+  }
+}
+
+</script>
+</body>
+</html>

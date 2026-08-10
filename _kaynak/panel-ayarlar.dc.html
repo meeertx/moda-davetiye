@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500,600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(97% 0.004 75);} a{color:oklch(48% 0.09 78);text-decoration:none;} input{font-family:'Work Sans',sans-serif;}</style>
+</helmet>
+<div style="min-height:100vh;display:flex;font-family:'Work Sans',sans-serif;color:oklch(24% 0.02 50);background:oklch(97% 0.004 75)">
+  <aside style="width:240px;flex-shrink:0;background:oklch(99% 0.002 75);border-right:1px solid oklch(88% 0.01 70);padding:28px 20px;display:flex;flex-direction:column;gap:4px">
+    <a href="Dijital Davetiye Platformu.dc.html" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;font-weight:600;color:oklch(24% 0.02 50);margin-bottom:32px;padding:0 8px">Meram<span style="color:oklch(52% 0.1 75)">.</span></a>
+    <a href="panel.dc.html" style="padding:11px 12px;border-radius:8px;font-size:14px;color:oklch(24% 0.02 50)">Genel Bakış</a>
+    <a href="panel-davetiyelerim.dc.html" style="padding:11px 12px;border-radius:8px;font-size:14px;color:oklch(24% 0.02 50)">Davetiyelerim</a>
+    <a href="panel-rsvp.dc.html" style="padding:11px 12px;border-radius:8px;font-size:14px;color:oklch(24% 0.02 50)">RSVP &amp; İstatistik</a>
+    <a href="panel-ayarlar.dc.html" style="padding:11px 12px;border-radius:8px;font-size:14px;background:oklch(24% 0.02 50);color:oklch(98% 0.006 75)">Ayarlar</a>
+    <div style="margin-top:auto;padding:0 8px;font-size:12px;color:oklch(55% 0.015 50)">Elif Kaya<br></br>elif@eposta.com</div>
+  </aside>
+  <main style="flex:1;padding:40px 48px;max-width:760px">
+    <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:32px;margin:0 0 32px">Hesap Ayarları</h1>
+
+    <div style="background:oklch(99% 0.002 75);border:1px solid oklch(88% 0.01 70);border-radius:10px;padding:28px;margin-bottom:24px">
+      <div style="font-size:13px;letter-spacing:0.03em;text-transform:uppercase;color:oklch(48% 0.015 50);margin-bottom:18px">Hesap Bilgileri</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+        <input value="Elif Kaya" style="padding:12px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:14px;background:oklch(97% 0.004 75)"></input>
+        <input value="elif@eposta.com" style="padding:12px 14px;border:1px solid oklch(88% 0.01 70);border-radius:6px;font-size:14px;background:oklch(97% 0.004 75)"></input>
+      </div>
+      <button style="cursor:pointer;padding:11px 20px;border:1px solid oklch(24% 0.02 50);background:oklch(24% 0.02 50);color:oklch(98% 0.006 75);border-radius:6px;font-size:13px">Kaydet</button>
+    </div>
+
+    <div style="background:oklch(99% 0.002 75);border:1px solid oklch(88% 0.01 70);border-radius:10px;padding:28px;margin-bottom:24px">
+      <div style="font-size:13px;letter-spacing:0.03em;text-transform:uppercase;color:oklch(48% 0.015 50);margin-bottom:18px">Bildirim Tercihleri</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0">
+        <span style="font-size:14px">Yeni RSVP yanıtında e-posta bildirimi</span>
+        <div style="width:40px;height:22px;border-radius:12px;background:oklch(52% 0.1 75);position:relative"><div style="width:16px;height:16px;border-radius:50%;background:white;position:absolute;top:3px;right:3px"></div></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0">
+        <span style="font-size:14px">SMS bildirimi</span>
+        <div style="width:40px;height:22px;border-radius:12px;background:oklch(88% 0.01 70);position:relative"><div style="width:16px;height:16px;border-radius:50%;background:white;position:absolute;top:3px;left:3px"></div></div>
+      </div>
+    </div>
+
+    <div style="border:1px solid oklch(85% 0.06 30);border-radius:10px;padding:28px">
+      <div style="font-size:13px;letter-spacing:0.03em;text-transform:uppercase;color:oklch(45% 0.1 30);margin-bottom:8px">Hesabı Sil</div>
+      <p style="font-size:13px;color:oklch(48% 0.015 50);line-height:1.6;margin:0 0 16px">Hesabınızı silmek, tüm davetiyelerinizi ve RSVP verilerinizi kalıcı olarak kaldırır. Bu işlem geri alınamaz.</p>
+      <button style="cursor:pointer;padding:10px 18px;border:1px solid oklch(45% 0.1 30);background:transparent;color:oklch(45% 0.1 30);border-radius:6px;font-size:13px">Hesabımı Sil</button>
+    </div>
+  </main>
+</div>
+
+</x-dc>
+</body>
+</html>

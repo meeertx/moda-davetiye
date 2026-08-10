@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500,600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(20% 0.015 50);} a{color:oklch(66% 0.1 75);text-decoration:none;} input{font-family:'Work Sans',sans-serif;}</style>
+</helmet>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:'Work Sans',sans-serif;color:oklch(96% 0.006 75);background:oklch(20% 0.015 50);padding:40px">
+  <div style="width:380px">
+    <div style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:24px;font-style:italic;font-weight:600;margin-bottom:8px">Meram<span style="color:oklch(66% 0.1 75)">.</span></div>
+    <div style="text-align:center;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:oklch(66% 0.1 75);margin-bottom:36px">Yönetim Paneli</div>
+    <div style="background:oklch(24% 0.018 50);border:1px solid oklch(35% 0.015 55);border-radius:6px;padding:36px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div>
+          <div style="font-size:12px;margin-bottom:6px;color:oklch(75% 0.01 60)">E-posta</div>
+          <input type="email" placeholder="admin@meram.co" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid oklch(35% 0.015 55);border-radius:4px;font-size:14px;background:oklch(22% 0.015 50);color:oklch(96% 0.006 75)"></input>
+        </div>
+        <div>
+          <div style="font-size:12px;margin-bottom:6px;color:oklch(75% 0.01 60)">Şifre</div>
+          <input type="password" placeholder="••••••••" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid oklch(35% 0.015 55);border-radius:4px;font-size:14px;background:oklch(22% 0.015 50);color:oklch(96% 0.006 75)"></input>
+        </div>
+        <a href="admin.dc.html" style="text-align:center;background:oklch(66% 0.1 75);color:oklch(20% 0.02 50);padding:14px;border-radius:4px;font-size:14px;margin-top:8px">Giriş Yap</a>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:20px"><a href="giris.dc.html" style="font-size:12px;color:oklch(65% 0.01 60)">← Müşteri girişine dön</a></div>
+  </div>
+</div>
+
+</x-dc>
+</body>
+</html>

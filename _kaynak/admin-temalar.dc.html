@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500,600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(97% 0.004 75);} a{color:oklch(48% 0.09 78);text-decoration:none;}</style>
+</helmet>
+<div style="min-height:100vh;display:flex;font-family:'Work Sans',sans-serif;color:oklch(24% 0.02 50);background:oklch(97% 0.004 75)">
+  <aside style="width:230px;flex-shrink:0;background:oklch(20% 0.015 50);color:oklch(90% 0.006 75);padding:28px 18px;display:flex;flex-direction:column;gap:4px">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;font-weight:600;margin-bottom:8px;padding:0 8px">Meram<span style="color:oklch(66% 0.1 75)">.</span></div>
+    <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:oklch(66% 0.1 75);margin-bottom:28px;padding:0 8px">Admin</div>
+    <a href="admin.dc.html" style="padding:11px 12px;border-radius:6px;font-size:14px;color:oklch(85% 0.006 75)">Dashboard</a>
+    <a href="admin-temalar.dc.html" style="padding:11px 12px;border-radius:6px;font-size:14px;background:oklch(30% 0.02 55);color:oklch(96% 0.006 75)">Temalar</a>
+    <a href="admin-siparisler.dc.html" style="padding:11px 12px;border-radius:6px;font-size:14px;color:oklch(85% 0.006 75)">Siparişler</a>
+    <a href="admin-kullanicilar.dc.html" style="padding:11px 12px;border-radius:6px;font-size:14px;color:oklch(85% 0.006 75)">Kullanıcılar</a>
+    <div style="margin-top:auto;padding:0 8px;font-size:12px;color:oklch(60% 0.01 60)">admin@meram.co</div>
+  </aside>
+  <main style="flex:1;padding:40px 48px;max-width:1300px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px">
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:32px;margin:0">Temalar</h1>
+      <button style="cursor:pointer;padding:11px 18px;border:1px solid oklch(24% 0.02 50);background:oklch(24% 0.02 50);color:oklch(98% 0.006 75);border-radius:6px;font-size:13px">+ Yeni Tema Ekle</button>
+    </div>
+    <div style="background:oklch(99% 0.002 75);border:1px solid oklch(88% 0.01 70);border-radius:10px;overflow:hidden">
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;padding:14px 20px;font-size:12px;letter-spacing:0.03em;text-transform:uppercase;color:oklch(48% 0.015 50);border-bottom:1px solid oklch(88% 0.01 70)">
+        <div>Tema Adı</div><div>Kategori</div><div>Sıra</div><div>Durum</div><div>İşlem</div>
+      </div>
+      <sc-for list="{{ themes }}" as="t" hint-placeholder-count="7">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;padding:12px 20px;font-size:13.5px;border-bottom:1px solid oklch(92% 0.005 70);align-items:center">
+          <div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:40px;border-radius:3px;background:{{ t.stripe }}"></div>{{ t.name }}</div>
+          <div>{{ t.category }}</div>
+          <div>{{ t.order }}</div>
+          <div><span style="font-size:11px;background:{{ t.badgeBg }};color:{{ t.badgeColor }};padding:3px 10px;border-radius:10px">{{ t.status }}</span></div>
+          <div style="display:flex;gap:10px"><span style="cursor:pointer;color:oklch(52% 0.1 75)">Düzenle</span><span style="cursor:pointer;color:oklch(60% 0.01 60)">Sil</span></div>
+        </div>
+      </sc-for>
+    </div>
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals(){
+    const raw = [
+      { name:'Belle Époque', category:'Düğün', order:1, active:true, stripe:'repeating-linear-gradient(45deg, oklch(93% 0.02 78) 0 6px, oklch(97% 0.012 78) 6px 12px)' },
+      { name:'Kalp Çizgisi', category:'Düğün', order:2, active:true, stripe:'repeating-linear-gradient(90deg, oklch(95% 0.006 75) 0 8px, oklch(98% 0.004 75) 8px 16px)' },
+      { name:'Zeytin Bahçesi', category:'Nişan', order:3, active:true, stripe:'repeating-linear-gradient(45deg, oklch(88% 0.05 140) 0 6px, oklch(94% 0.03 140) 6px 12px)' },
+      { name:'Kırmızı Kına', category:'Kına', order:4, active:true, stripe:'repeating-linear-gradient(45deg, oklch(45% 0.14 25) 0 6px, oklch(50% 0.13 25) 6px 12px)' },
+      { name:'Söz Vakti', category:'Save the Date', order:5, active:true, stripe:'repeating-linear-gradient(90deg, oklch(30% 0.04 260) 0 7px, oklch(35% 0.035 260) 7px 14px)' },
+      { name:'Mermer & Yaldız', category:'Düğün', order:6, active:false, stripe:'repeating-linear-gradient(120deg, oklch(20% 0.01 50) 0 5px, oklch(26% 0.015 50) 5px 10px)' },
+      { name:'Nişan Çemberi', category:'Nişan', order:7, active:true, stripe:'repeating-linear-gradient(45deg, oklch(90% 0.04 20) 0 6px, oklch(95% 0.025 20) 6px 12px)' },
+    ];
+    return { themes: raw.map(t => ({ ...t, status: t.active?'Aktif':'Pasif', badgeBg: t.active?'oklch(88% 0.06 145)':'oklch(90% 0.01 60)', badgeColor: t.active?'oklch(35% 0.08 145)':'oklch(48% 0.015 50)' })) };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,26 +1,221 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ---------------------------------------------------------------------------
+   dijitaldavetiye — tasarım tokenları
+   Değerler _kaynak/ altındaki HTML prototipinden birebir çıkarıldı.
+   Tüm renkler oklch; Tailwind v4 `@theme` sayesinde bg-, text- ve border-
+   yardımcı sınıfları ve opaklık değiştiricileri otomatik üretilir.
+--------------------------------------------------------------------------- */
+@theme {
+  /* Tipografi */
+  --font-display: var(--font-cormorant), "Cormorant Garamond", serif;
+  --font-body: var(--font-work-sans), "Work Sans", sans-serif;
+  /* Yalnızca davetiyelerdeki çift isimleri — küçük puntoda okunmaz */
+  --font-script: var(--font-great-vibes), "Great Vibes", cursive;
+
+  /* Zeminler — açıktan koyuya */
+  --color-paper: oklch(99% 0.004 80); /* kart zemini */
+  --color-paper-alt: oklch(99% 0.002 75); /* panel kart zemini */
+  --color-cream: oklch(98% 0.006 75); /* pazarlama sayfa zemini */
+  --color-shell: oklch(97% 0.004 75); /* panel/editör sayfa zemini */
+
+  /* Metin — koyudan açığa */
+  --color-ink-deep: oklch(20% 0.015 50); /* footer zemini */
+  --color-ink: oklch(24% 0.02 50); /* ana metin + koyu bölüm zemini */
+  --color-ink-lift: oklch(31% 0.024 52); /* koyu butonun hover hâli */
+  --color-slate: oklch(40% 0.015 50); /* nav linkleri */
+  --color-muted: oklch(48% 0.015 50); /* ikincil metin */
+  --color-faint: oklch(75% 0.008 75); /* koyu zeminde gövde metni */
+  --color-faint-dim: oklch(70% 0.008 75); /* koyu zeminde soluk metin */
+  --color-snow: oklch(96% 0.006 75); /* koyu zeminde başlık metni */
+  --color-mist: oklch(80% 0.006 75); /* koyu zeminde soluk gövde metni */
+  --color-hush: oklch(85% 0.006 75); /* pasif nokta / en soluk ton */
+
+  /* Vurgu — bronz/yaldız */
+  --color-gold: oklch(52% 0.1 75); /* açık zeminde vurgu */
+  --color-gold-light: oklch(66% 0.1 75); /* koyu zeminde vurgu */
+  --color-link: oklch(48% 0.09 78);
+  --color-link-hover: oklch(38% 0.09 78);
+
+  /* Çizgiler */
+  --color-line: oklch(89% 0.01 65); /* pazarlama kenarlığı */
+  --color-line-soft: oklch(92% 0.006 70); /* ince ayraç */
+  --color-line-panel: oklch(88% 0.01 70); /* panel/form kenarlığı */
+  --color-line-dark: oklch(32% 0.012 55); /* koyu zeminde ayraç */
+
+  /* Durum rozetleri */
+  --color-ok-bg: oklch(88% 0.06 145);
+  --color-ok-fg: oklch(35% 0.08 145);
+  --color-warn-bg: oklch(92% 0.05 85);
+  --color-warn-fg: oklch(45% 0.09 75);
+  --color-danger-bg: oklch(90% 0.02 30);
+  --color-danger-fg: oklch(45% 0.1 30);
+  --color-neutral-bg: oklch(90% 0.02 70);
+  --color-neutral-fg: oklch(45% 0.02 60);
+
+  /* Panel yüzeyleri — müşteri ve admin panelleri aynı dünyayı paylaşır */
+  --color-rail: oklch(97.5% 0.005 78); /* sol menü zemini */
+  --color-rail-hover: oklch(94% 0.008 75); /* menü öğesi hover */
+
+  /* Açılış animasyonu */
+  --animate-fade-up: fadeUp 0.8s ease both;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Klavye odağı her etkileşimli öğede görünür olmalı. Fare tıklamasında
+   çıkmasın diye :focus değil :focus-visible kullanılıyor. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------------------------------------------------------------------------
+   ZARF AÇILIŞI
+   Davetiyenin açılış sahnesi: mühür kırılır, kapak arkaya devrilir,
+   kart zarftan yükselir. Sıralama bilinçli olarak üst üste biner —
+   üç hareket art arda değil, birbirinin içine geçerek akar.
+
+   z-index adım adım değişiyor: kapak açılırken kartın ARKASINA,
+   kart yükselirken zarfın ÖNÜNE geçmek zorunda. Bu bir görsel süs değil,
+   katman sırasının doğru olması için şart.
+--------------------------------------------------------------------------- */
+@keyframes sealBreak {
+  0% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  30% {
+    transform: translate(-50%, -50%) scale(1.14) rotate(-6deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.6) rotate(14deg);
+    opacity: 0;
+  }
+}
+
+@keyframes flapOpen {
+  0% {
+    transform: rotateX(0deg);
+    z-index: 4;
+  }
+  49% {
+    z-index: 4;
+  }
+  50% {
+    z-index: 0;
+  }
+  100% {
+    transform: rotateX(-176deg);
+    z-index: 0;
+  }
+}
+
+@keyframes cardRise {
+  0% {
+    transform: translateY(0);
+    z-index: 1;
+  }
+  35% {
+    z-index: 1;
+  }
+  36% {
+    z-index: 6;
+  }
+  100% {
+    transform: translateY(-118%);
+    z-index: 6;
+  }
+}
+
+@keyframes envelopeLeave {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  55% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+/* Mühür üzerinde dolaşan ışık — kapı beklerken sahne canlı kalsın */
+@keyframes sealGlow {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Öğe seviyesindeki varsayılanlar `base` katmanında olmak ZORUNDA.
+   Tailwind v4 yardımcı sınıfları bir cascade layer içinde üretir ve
+   katmansız stiller, özgüllükten bağımsız olarak katmanlıları yener —
+   yani katmansız bir `a { color }` kuralı, bağlantı üzerindeki her
+   `text-*` sınıfını sessizce ezerdi. */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--color-ink);
+  }
+
+  /* Yalnızca kendi rengi verilmemiş bağlantılar vurgu rengini alır. */
+  a {
+    color: var(--color-link);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  a:hover {
+    color: var(--color-link-hover);
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font-family: inherit;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

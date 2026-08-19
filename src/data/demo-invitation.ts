@@ -48,7 +48,11 @@ export function demoContentFor(themeSlug: string): InvitationContent {
       { time: "18:00", title: "Kokteyl" },
       { time: "19:30", title: "Yemek ve Dans" },
     ],
-    photoUrls: [],
+    photoUrls: [
+      "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80",
+    ],
     menu: [
       "Mevsim Salatası",
       "Fırın Levrek",

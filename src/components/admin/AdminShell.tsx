@@ -30,8 +30,8 @@ export default async function AdminShell({
       <SidebarNav
         items={NAV}
         badge="Yönetim"
-        fullName={current?.profile?.full_name}
-        email={current?.user.email}
+        fullName={current?.profile?.full_name ?? "Yönetici Hesabı"}
+        email={current?.user?.email ?? "admin@modadavetiye.com"}
       />
       <main className="flex-1 min-w-0 px-5 py-8 md:py-10 md:px-12 max-w-[1300px]">
         {children}

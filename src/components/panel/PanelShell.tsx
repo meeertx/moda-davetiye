@@ -30,8 +30,8 @@ export default async function PanelShell({
     <div className="min-h-screen flex flex-col md:flex-row font-body text-ink bg-shell">
       <SidebarNav
         items={NAV}
-        fullName={current?.profile?.full_name}
-        email={current?.user.email}
+        fullName={current?.profile?.full_name ?? "Müşteri Hesabı"}
+        email={current?.user?.email ?? "musteri@modadavetiye.com"}
       />
       <main
         className={`flex-1 min-w-0 px-5 py-8 md:py-10 md:px-12 ${

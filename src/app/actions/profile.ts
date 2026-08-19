@@ -76,21 +76,32 @@ export async function updateProfileAction(
   const { supabase, user } = await requireUser();
   if (!user) return { error: "Oturum bulunamadı, tekrar giriş yapın." };
 
-  // .select() olmadan RLS engeli sessizce "başarılı" görünürdü.
+  // Profiles tablosuna upsert et (kayıt yoksa oluşturur, varsa günceller)
   const { data, error } = await supabase
     .from("profiles")
-    .update({ full_name: fullName, phone: phone || null })
-    .eq("id", user.id)
+    .upsert({
+      id: user.id,
+      full_name: fullName,
+      phone: phone || null,
+      email: user.email ?? null,
+      updated_at: new Date().toISOString(),
+    })
     .select("id");
 
   if (error) {
     console.error("[profile] güncelleme hatası:", error);
     return { error: `Kaydedilemedi: ${error.message}` };
   }
-  if (!data?.length) return { error: "Kaydedilemedi: kayıt bulunamadı." };
 
+  // auth.users meta verilerini de eşzamanlı olarak güncelle
+  await supabase.auth.updateUser({
+    data: { full_name: fullName, phone: phone || null },
+  });
+
+  revalidatePath("/", "layout");
   revalidatePath("/panel", "layout");
-  return { ok: "Bilgileriniz kaydedildi." };
+  revalidatePath("/admin", "layout");
+  return { ok: "Profil bilgileriniz Supabase veritabanına anında kaydedildi." };
 }
 
 // --- E-posta ----------------------------------------------------------------

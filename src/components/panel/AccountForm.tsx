@@ -26,7 +26,12 @@ export default function AccountForm({
   return (
     <form action={formAction} className="flex flex-col gap-4">
       {state.error && <FormMessage>{state.error}</FormMessage>}
-      {state.ok && <FormMessage tone="ok">{state.ok}</FormMessage>}
+      {state.ok && (
+        <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs font-semibold flex items-center gap-2 animate-pulse">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+          <span>✨ {state.ok}</span>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
@@ -45,7 +50,7 @@ export default function AccountForm({
         </div>
         <div>
           <label htmlFor="phone" className={labelClass}>
-            Telefon
+            Telefon Numarası
           </label>
           <input
             id="phone"
@@ -60,12 +65,13 @@ export default function AccountForm({
       </div>
 
       <SubmitButton
-        variant="primary"
+        variant="gold"
+        shape="pill"
         size="sm"
-        pendingLabel="Kaydediliyor…"
-        className="self-start mt-1"
+        pendingLabel="Supabase Veritabanına Kaydediliyor…"
+        className="self-start mt-2 px-6 font-semibold apple-press"
       >
-        Kaydet
+        💾 Değişiklikleri Veritabanına Kaydet
       </SubmitButton>
     </form>
   );

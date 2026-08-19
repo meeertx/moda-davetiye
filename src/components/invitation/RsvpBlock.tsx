@@ -48,13 +48,20 @@ export default function RsvpBlock({
 
   if (state.sent) {
     return (
-      <p
-        className={`font-display italic text-[22px] text-center m-0 py-8 ${
-          dark ? "text-white/85" : "text-ink"
-        }`}
-      >
-        Yanıtınız alındı, teşekkürler.
-      </p>
+      <div className="text-center py-10 px-6 rounded-2xl bg-gold/10 border border-gold/40 shadow-xl backdrop-blur-md animate-fade-in">
+        <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to-tr from-[#D4AF37] via-[#F5E6B3] to-[#C09622] text-black text-2xl flex items-center justify-center shadow-lg">
+          ✨
+        </div>
+        <h3 className={`font-display text-2xl font-semibold m-0 mb-2.5 ${dark ? "text-amber-200" : "text-ink"}`}>
+          RSVP Yanıtınız Çifte İletildi!
+        </h3>
+        <p className={`text-sm leading-relaxed m-0 max-w-md mx-auto ${dark ? "text-amber-100/80" : "text-muted"}`}>
+          Katılım durumunuz ve özel mesajınız başarıyla sisteme aktarıldı. Mutluluğumuzu paylaştığınız için teşekkür ederiz.
+        </p>
+        <div className="mt-5 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/20 border border-gold/30 text-gold text-xs font-semibold uppercase tracking-widest shadow-xs">
+          ✦ Katılımınız Onaylandı ❖
+        </div>
+      </div>
     );
   }
 

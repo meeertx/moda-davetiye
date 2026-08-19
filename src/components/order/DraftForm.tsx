@@ -8,6 +8,7 @@ import { inputClass, labelClass } from "@/components/ui/field";
 import { draftToQuery, type OrderDraft } from "@/lib/order-draft";
 import { THEMES } from "@/data/themes";
 import type { EventType } from "@/types/supabase";
+import VisualCover from "@/components/marketing/VisualCover";
 
 const input = inputClass("marketing");
 const label = labelClass;
@@ -117,8 +118,8 @@ export default function DraftForm({ initial }: { initial?: Partial<OrderDraft> }
       </div>
 
       <div>
-        <span className={label}>Tema</span>
-        <div className="grid grid-cols-4 gap-3">
+        <span className={label}>Tema Seçimi</span>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {THEMES.filter((t) => t.active).map((t) => {
             const selected = theme === t.slug;
             return (
@@ -130,15 +131,14 @@ export default function DraftForm({ initial }: { initial?: Partial<OrderDraft> }
                   setError(null);
                 }}
                 aria-pressed={selected}
-                className={`text-left cursor-pointer bg-transparent p-0 rounded-[4px] overflow-hidden border-2 transition-colors ${
-                  selected ? "border-gold" : "border-line hover:border-muted"
+                className={`text-left cursor-pointer bg-paper p-0 rounded-xl overflow-hidden border-2 transition-all shadow-md ${
+                  selected
+                    ? "border-amber-500 shadow-amber-500/20 scale-[1.02]"
+                    : "border-line-panel hover:border-amber-400/50"
                 }`}
               >
-                <span
-                  className="block w-full aspect-[4/5]"
-                  style={{ background: t.stripe }}
-                />
-                <span className="block px-2 py-2 text-[12px] leading-tight">
+                <VisualCover theme={t} />
+                <span className="block p-3 text-[12px] font-semibold leading-tight text-foreground">
                   {t.name}
                 </span>
               </button>

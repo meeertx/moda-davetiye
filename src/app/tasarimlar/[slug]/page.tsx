@@ -1,9 +1,12 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import SiteShell from "@/components/site/SiteShell";
 import Breadcrumb from "@/components/marketing/Breadcrumb";
 import { ButtonLink } from "@/components/ui/Button";
 import { THEMES, getTheme } from "@/data/themes";
+
+import VisualCover from "@/components/marketing/VisualCover";
 
 export function generateStaticParams() {
   return THEMES.map((t) => ({ slug: t.slug }));
@@ -40,17 +43,20 @@ export default async function TasarimDetayPage({
           ]}
         />
 
-        <div className="grid grid-cols-[420px_1fr] gap-16 mt-8">
-          <div className="relative">
-            <div
-              className="w-full aspect-[4/5] rounded-md flex items-center justify-center text-[oklch(45%_0.02_60)] text-[11px] uppercase"
-              style={{ background: theme.stripe }}
+        <div className="grid grid-cols-1 md:grid-cols-[420px_1fr] gap-16 mt-8">
+          <div className="relative group rounded-xl overflow-hidden shadow-2xl border border-amber-400/40">
+            <VisualCover theme={theme} />
+            <Link
+              href={`/davetiye/${theme.slug}`}
+              className="absolute inset-0 bg-black/40 backdrop-blur-xs flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             >
-              canlı önizleme videosu
-            </div>
-            <div className="absolute top-4 left-4 w-11 h-11 rounded-full bg-cream/90 flex items-center justify-center text-sm">
-              ▶
-            </div>
+              <div className="w-16 h-16 rounded-full bg-amber-400 text-black flex items-center justify-center text-2xl shadow-xl transform group-hover:scale-110 transition-transform">
+                ▶
+              </div>
+              <span className="mt-3 text-xs uppercase tracking-widest font-semibold text-amber-200">
+                Canlı İnteraktif Demoyu Aç
+              </span>
+            </Link>
           </div>
 
           <div>

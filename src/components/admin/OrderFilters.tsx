@@ -34,16 +34,15 @@ export default function OrderFilters({
       else params.delete(key);
     }
     startTransition(() => {
-      router.push(`/admin/siparisler?${params.toString()}`);
+      router.replace(`/admin/siparisler?${params.toString()}`, { scroll: false });
     });
   };
 
-  // Debounced auto-search as user types
+  // Instant debounced live filtering as user types (100ms delay)
   useEffect(() => {
-    if (q === initialQuery) return;
     const timer = setTimeout(() => {
       push({ q });
-    }, 350);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [q]);

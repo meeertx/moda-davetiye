@@ -9,6 +9,7 @@ import {
 import { ORDER_STATUS } from "@/lib/orders";
 import FormMessage from "@/components/ui/FormMessage";
 import SubmitButton from "@/components/ui/SubmitButton";
+import Toast from "@/components/ui/Toast";
 import { inputClass, labelClass, hintClass } from "@/components/ui/field";
 import type { OrderStatus } from "@/types/supabase";
 
@@ -28,7 +29,6 @@ export default function OrderDetailForm({
   status: OrderStatus;
   invitationUrl: string | null;
   adminNote: string | null;
-  /** Service-role anahtarı yoksa müşteri e-postası okunamaz */
   canNotify: boolean;
 }) {
   const [saveState, saveAction] = useActionState<ActionState, FormData>(
@@ -49,7 +49,14 @@ export default function OrderDetailForm({
         <div className="flex flex-col gap-4">
           {saveState.error && <FormMessage>{saveState.error}</FormMessage>}
           {saveState.ok && (
-            <FormMessage tone="ok">{saveState.ok}</FormMessage>
+            <>
+              <FormMessage tone="ok">{saveState.ok}</FormMessage>
+              <Toast
+                title="Sipariş Güncellendi ✨"
+                message={saveState.ok}
+                type="success"
+              />
+            </>
           )}
 
           <div>
@@ -65,8 +72,7 @@ export default function OrderDetailForm({
               className={input}
             />
             <p className={hintClass}>
-              Link girilmeden durum &quot;Tamamlandı&quot; yapılamaz — bu kural
-              veritabanı seviyesinde de kilitli.
+              Link girilmeden durum &quot;Tamamlandı&quot; yapılamaz.
             </p>
           </div>
 
@@ -103,10 +109,11 @@ export default function OrderDetailForm({
           </div>
 
           <SubmitButton
-            variant="primary"
+            variant="gold"
+            shape="pill"
             size="sm"
             pendingLabel="Kaydediliyor…"
-            className="self-start mt-1"
+            className="self-start mt-1 px-5 font-semibold apple-press"
           >
             Kaydet
           </SubmitButton>
@@ -120,7 +127,14 @@ export default function OrderDetailForm({
         <div className="flex flex-col gap-4">
           {notifyState.error && <FormMessage>{notifyState.error}</FormMessage>}
           {notifyState.ok && (
-            <FormMessage tone="ok">{notifyState.ok}</FormMessage>
+            <>
+              <FormMessage tone="ok">{notifyState.ok}</FormMessage>
+              <Toast
+                title="Müşteri Bildirimi Gönderildi 📩"
+                message={notifyState.ok}
+                type="success"
+              />
+            </>
           )}
 
           <p className="text-sm text-muted leading-[1.7] m-0">
@@ -130,8 +144,7 @@ export default function OrderDetailForm({
 
           {!canNotify && (
             <FormMessage>
-              Müşteri e-postasını okumak için{" "}
-              <code>SUPABASE_SERVICE_ROLE_KEY</code> tanımlı olmalı.
+              Müşteri e-postasını okumak için servis anahtarı tanımlı olmalı.
             </FormMessage>
           )}
 
@@ -139,7 +152,7 @@ export default function OrderDetailForm({
             variant="secondary"
             size="sm"
             pendingLabel="Gönderiliyor…"
-            className="self-start"
+            className="self-start px-5 font-medium apple-press"
           >
             Müşteriye Bildirim Gönder
           </SubmitButton>

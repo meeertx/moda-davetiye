@@ -10,6 +10,7 @@ import { inputClass, labelClass, hintClass } from "@/components/ui/field";
 import FormMessage from "@/components/ui/FormMessage";
 import SubmitButton from "@/components/ui/SubmitButton";
 import Button from "@/components/ui/Button";
+import Toast from "@/components/ui/Toast";
 import { THEMES } from "@/data/themes";
 import { IMPLEMENTED_THEMES } from "@/components/invitation/ThemeRenderer";
 import { BRAND } from "@/lib/brand";
@@ -123,6 +124,11 @@ export default function InvitationEditorForm({
         {pubState.ok && (
           <div className="mt-4">
             <FormMessage tone="ok">{pubState.ok}</FormMessage>
+            <Toast
+              title="Yayın Durumu Güncellendi ✨"
+              message={pubState.ok}
+              type="success"
+            />
           </div>
         )}
       </form>
@@ -158,7 +164,14 @@ export default function InvitationEditorForm({
 
         {saveState.error && <FormMessage>{saveState.error}</FormMessage>}
         {saveState.ok && (
-          <FormMessage tone="ok">{saveState.ok}</FormMessage>
+          <>
+            <FormMessage tone="ok">{saveState.ok}</FormMessage>
+            <Toast
+              title="Davetiye Kaydedildi ✨"
+              message={saveState.ok}
+              type="success"
+            />
+          </>
         )}
 
         <section className={card}>

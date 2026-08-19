@@ -8,6 +8,7 @@ import {
 } from "@/app/actions/guestPhotos";
 import Badge from "@/components/ui/Badge";
 import FormMessage from "@/components/ui/FormMessage";
+import Toast from "@/components/ui/Toast";
 import { formatDateTime } from "@/lib/orders";
 
 export interface ModerationPhoto {
@@ -20,10 +21,6 @@ export interface ModerationPhoto {
 
 /**
  * Misafir fotoğraflarının onay ekranı.
- *
- * Her kare kendi formuyla gönderiliyor — tek bir toplu form yerine
- * satır satır işlem, çünkü bir kareyi onaylamak diğerlerini beklememeli.
- * Silme geri alınamaz olduğu için ayrı ve daha sessiz bir eylem.
  */
 export default function GuestPhotoModeration({
   photos,
@@ -66,6 +63,11 @@ export default function GuestPhotoModeration({
       {success && (
         <div className="mb-5">
           <FormMessage tone="ok">{success}</FormMessage>
+          <Toast
+            title="Anılar Güncellendi ✨"
+            message={success}
+            type="success"
+          />
         </div>
       )}
 

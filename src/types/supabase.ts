@@ -56,6 +56,7 @@ export interface Database {
         Row: {
           id: string;
           full_name: string;
+          email: string | null;
           phone: string | null;
           role: UserRole;
           created_at: string;
@@ -64,6 +65,7 @@ export interface Database {
         Insert: {
           id: string;
           full_name: string;
+          email?: string | null;
           phone?: string | null;
           role?: UserRole;
           created_at?: string;
@@ -72,6 +74,7 @@ export interface Database {
         Update: {
           id?: string;
           full_name?: string;
+          email?: string | null;
           phone?: string | null;
           role?: UserRole;
           created_at?: string;

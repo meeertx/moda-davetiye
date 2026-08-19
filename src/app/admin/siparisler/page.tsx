@@ -25,7 +25,7 @@ export default async function AdminSiparislerPage({
       const supabase = await createClient();
       let query = supabase
         .from("orders")
-        .select("*, profiles(full_name)")
+        .select("*, profiles(full_name, email, phone)")
         .order("created_at", { ascending: false });
 
       if (durum !== "all" && durum in ORDER_STATUS) {

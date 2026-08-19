@@ -32,7 +32,7 @@ export default async function AdminDashboardPage() {
         Promise.all([
           supabase
             .from("orders")
-            .select("*, profiles(full_name)")
+            .select("*, profiles(full_name, email, phone)")
             .order("created_at", { ascending: false }),
           supabase.from("profiles").select("id", { count: "exact", head: true }),
         ]),

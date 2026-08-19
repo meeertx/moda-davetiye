@@ -5,16 +5,6 @@ import { useCountdown, pad } from "./useCountdown";
 import type { InvitationContent } from "@/types/invitation";
 import type { ProgramItem } from "@/types/supabase";
 
-/**
- * Temaların ortak kullandığı içerik blokları.
- *
- * Yedi tema yapısal olarak birbirinden ayrı — biri iki sütun, biri tek
- * ekran, biri daire geometrisi. Ama menü listesi ya da harita gömme gibi
- * işler her temada aynı: burada bir kez yazılıp `tone` ile zemine
- * uyarlanıyor. Böylece yeni bir alan eklendiğinde yedi dosya değil, bir
- * dosya değişiyor.
- */
-
 type Tone = "light" | "dark";
 
 interface ToneProps {
@@ -25,17 +15,6 @@ interface ToneProps {
 /* ===========================================================================
    GÖMÜLÜ HARİTA
    ========================================================================= */
-
-/**
- * Google Maps yerleştirmesi.
- *
- * API anahtarı GEREKTİRMEZ: `maps.google.com/maps?output=embed` uç
- * noktası ücretsiz ve kotasız. Anahtarlı Embed API'ye geçmek fatura ve
- * anahtar sızma riski getirirdi; davetiye için tek ihtiyaç duyulan şey
- * mekânın haritada görünmesi.
- *
- * Sorgu, adres yoksa mekân adına düşer — ikisi de yoksa harita çizilmez.
- */
 export function VenueMap({
   content,
   tone = "light",
@@ -49,8 +28,10 @@ export function VenueMap({
 
   return (
     <div
-      className={`relative overflow-hidden ${
-        dark ? "border border-white/15" : "border border-black/10"
+      className={`relative overflow-hidden rounded-2xl ${
+        dark
+          ? "border border-amber-400/30 bg-black/60 shadow-[0_10px_30px_rgba(0,0,0,0.6)]"
+          : "border border-amber-600/20 bg-white/80 shadow-lg"
       } ${className ?? ""}`}
     >
       <iframe
@@ -58,21 +39,16 @@ export function VenueMap({
         title={`${content.venueName ?? "Mekân"} haritası`}
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
-        className="block w-full h-[260px] sm:h-[320px] border-0"
-        // Koyu temalarda parlak beyaz harita göz alıyor; hafifçe
-        // söndürülüp doygunluğu düşürülüyor.
-        style={dark ? { filter: "grayscale(0.35) brightness(0.82)" } : undefined}
+        className="block w-full h-[280px] sm:h-[340px] border-0"
+        style={dark ? { filter: "grayscale(0.3) brightness(0.85) contrast(1.1)" } : undefined}
       />
     </div>
   );
 }
 
-/**
- * Harita ve takvim eylemleri — "Yol tarifi al" ve "Takvime ekle".
- *
- * Takvim dosyası bir data-URI olarak üretiliyor; sunucuya ek bir uç
- * nokta açmaya gerek yok ve dosya kullanıcının cihazında oluşuyor.
- */
+/* ===========================================================================
+   HARİTA VE TAKVİM EYLEMLERİ
+   ========================================================================= */
 export function EventActions({
   content,
   tone = "light",
@@ -87,16 +63,16 @@ export function EventActions({
       ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(query)}`
       : null);
 
-  const button = `inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-[11.5px] tracking-[0.16em] uppercase transition-colors ${
+  const button = `inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full text-xs font-semibold tracking-[0.18em] uppercase transition-all duration-300 transform hover:scale-105 shadow-md ${
     dark
-      ? "border border-white/35 text-white hover:bg-white hover:text-black"
-      : "border border-black/25 text-ink hover:bg-ink hover:text-cream"
+      ? "bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-black border border-amber-300/80 hover:shadow-[0_0_25px_rgba(212,175,55,0.5)]"
+      : "bg-gradient-to-r from-amber-700 via-amber-600 to-amber-800 text-white border border-amber-600/50 hover:shadow-[0_0_20px_rgba(180,130,40,0.3)]"
   }`;
 
   if (!directionsUrl && !content.eventAt) return null;
 
   return (
-    <div className={`flex flex-wrap gap-3 ${className ?? ""}`}>
+    <div className={`flex flex-wrap justify-center gap-4 ${className ?? ""}`}>
       {directionsUrl && (
         <a
           href={directionsUrl}
@@ -105,12 +81,12 @@ export function EventActions({
           className={button}
         >
           <svg
-            width="15"
-            height="15"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.5"
+            strokeWidth="2"
             aria-hidden="true"
           >
             <path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z" />
@@ -122,12 +98,12 @@ export function EventActions({
       {content.eventAt && (
         <a href={calendarHref(content)} download={calendarFileName(content)} className={button}>
           <svg
-            width="15"
-            height="15"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.5"
+            strokeWidth="2"
             aria-hidden="true"
           >
             <rect x="3.5" y="5" width="17" height="15.5" rx="2" />
@@ -140,7 +116,6 @@ export function EventActions({
   );
 }
 
-/** iCalendar zaman damgası: 2026-09-12T15:00:00Z → 20260912T150000Z */
 function icsStamp(date: Date) {
   return date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
 }
@@ -149,10 +124,8 @@ function calendarFileName(content: InvitationContent) {
   return `${content.slug || "davetiye"}.ics`;
 }
 
-/** Etkinliği .ics olarak data-URI'ye yazar. */
 function calendarHref(content: InvitationContent) {
   const start = new Date(content.eventAt!);
-  // Süre bilgisi toplanmıyor; düğün için 5 saat makul bir varsayılan
   const end = new Date(start.getTime() + 5 * 60 * 60 * 1000);
   const title = `${content.brideName} & ${content.groomName}`;
   const location = [content.venueName, content.venueAddress]
@@ -165,10 +138,6 @@ function calendarHref(content: InvitationContent) {
     "PRODID:-//Moda Davetiye//TR",
     "BEGIN:VEVENT",
     `UID:${content.id}@modavetiye.com`,
-    // DTSTAMP normalde "dosyanın üretildiği an"dır, ama `new Date()`
-    // sunucu ve istemcide farklı değer üretip hidrasyon uyuşmazlığına
-    // yol açıyor. Etkinlik başlangıcı deterministik ve takvim
-    // uygulamaları bunu sorunsuz kabul ediyor.
     `DTSTAMP:${icsStamp(start)}`,
     `DTSTART:${icsStamp(start)}`,
     `DTEND:${icsStamp(end)}`,
@@ -184,14 +153,6 @@ function calendarHref(content: InvitationContent) {
 /* ===========================================================================
    EBEVEYN İSİMLERİ
    ========================================================================= */
-
-/**
- * Çiftin ailelerinin isimleri.
- *
- * Türk davetiyelerinde çiftin isimlerinin hemen altında, "kızları" /
- * "oğulları" ilişkisini kuran bir blok olarak durur. İki aile de
- * girilmemişse hiç çizilmez.
- */
 export function ParentsLine({
   content,
   tone = "light",
@@ -199,32 +160,29 @@ export function ParentsLine({
   className,
 }: ToneProps & {
   content: InvitationContent;
-  /** Sola dayalı temalar (Kırmızı Kına gibi) `start` kullanır */
   align?: "center" | "start";
 }) {
   if (!content.brideParents && !content.groomParents) return null;
 
   const dark = tone === "dark";
-  const muted = dark ? "text-white/45" : "text-black/40";
-  const name = dark ? "text-white/85" : "text-ink";
+  const muted = dark ? "text-amber-300/60" : "text-amber-900/60";
+  const name = dark ? "text-amber-100" : "text-amber-950";
   const start = align === "start";
 
   return (
     <div
-      className={`flex flex-col sm:flex-row gap-5 sm:gap-10 ${
+      className={`flex flex-col sm:flex-row gap-5 sm:gap-12 ${
         start
           ? "items-start justify-start text-left"
-          : "items-center justify-center"
+          : "items-center justify-center text-center"
       } ${className ?? ""}`}
     >
       {content.brideParents && (
         <div className={start ? undefined : "text-center"}>
-          <p
-            className={`m-0 mb-1.5 text-[10px] tracking-[0.28em] uppercase ${muted}`}
-          >
+          <p className={`m-0 mb-1 text-[10.5px] tracking-[0.3em] uppercase font-medium ${muted}`}>
             Kızları
           </p>
-          <p className={`m-0 font-display text-[17px] leading-snug ${name}`}>
+          <p className={`m-0 font-display text-lg font-semibold ${name}`}>
             {content.brideParents}
           </p>
         </div>
@@ -233,18 +191,16 @@ export function ParentsLine({
       {content.brideParents && content.groomParents && (
         <span
           aria-hidden="true"
-          className={`hidden sm:block w-px h-9 ${dark ? "bg-white/20" : "bg-black/15"}`}
+          className={`hidden sm:block w-px h-10 ${dark ? "bg-amber-400/30" : "bg-amber-800/20"}`}
         />
       )}
 
       {content.groomParents && (
         <div className={start ? undefined : "text-center"}>
-          <p
-            className={`m-0 mb-1.5 text-[10px] tracking-[0.28em] uppercase ${muted}`}
-          >
+          <p className={`m-0 mb-1 text-[10.5px] tracking-[0.3em] uppercase font-medium ${muted}`}>
             Oğulları
           </p>
-          <p className={`m-0 font-display text-[17px] leading-snug ${name}`}>
+          <p className={`m-0 font-display text-lg font-semibold ${name}`}>
             {content.groomParents}
           </p>
         </div>
@@ -256,11 +212,6 @@ export function ParentsLine({
 /* ===========================================================================
    PROGRAM — İKONLU ZAMAN ÇİZELGESİ
    ========================================================================= */
-
-/**
- * Dikey zaman çizelgesi: her satırın başında daire içinde bir ikon,
- * daireler ince bir çizgiyle birbirine bağlı.
- */
 export function ProgramTimeline({
   program,
   tone = "light",
@@ -269,42 +220,36 @@ export function ProgramTimeline({
   if (!program.length) return null;
 
   const dark = tone === "dark";
-  const line = dark ? "bg-white/18" : "bg-black/12";
-  const ring = dark ? "border-white/30 text-white/80" : "border-black/20 text-ink";
-  const time = dark ? "text-white/50" : "text-black/45";
-  const title = dark ? "text-white/90" : "text-ink";
+  const line = dark ? "bg-gradient-to-b from-amber-400/80 via-amber-500/40 to-transparent" : "bg-gradient-to-b from-amber-600/60 via-amber-500/30 to-transparent";
+  const ring = dark
+    ? "border-amber-400/60 bg-zinc-950 text-amber-300 shadow-[0_0_20px_rgba(212,175,55,0.3)]"
+    : "border-amber-600/40 bg-amber-50 text-amber-800 shadow-md";
+  const time = dark ? "text-amber-400 font-semibold" : "text-amber-800 font-semibold";
+  const title = dark ? "text-amber-100" : "text-zinc-900";
 
   return (
     <ol className={`list-none p-0 m-0 relative ${className ?? ""}`}>
-      {/* Daireleri birbirine bağlayan çizgi — ilk ve son dairenin
-          merkezinde başlayıp bitsin diye üstten/alttan kırpılıyor */}
       <span
         aria-hidden="true"
-        className={`absolute left-[23px] top-6 bottom-6 w-px ${line}`}
+        className={`absolute left-[23px] top-6 bottom-6 w-0.5 ${line}`}
       />
 
       {program.map((item, i) => (
         <li
           key={`${item.time}-${item.title}-${i}`}
-          className="relative flex items-start gap-5 pb-9 last:pb-0"
+          className="relative flex items-start gap-5 pb-9 last:pb-0 group"
         >
           <span
-            className={`relative z-10 shrink-0 w-12 h-12 rounded-full border flex items-center justify-center ${ring} ${
-              dark ? "bg-black/40" : "bg-white"
-            }`}
+            className={`relative z-10 shrink-0 w-12 h-12 rounded-full border flex items-center justify-center transition-transform group-hover:scale-110 ${ring}`}
           >
             <ProgramIcon name={programIcon(item.title)} className="w-5 h-5" />
           </span>
 
-          <div className="pt-2.5">
-            <p
-              className={`m-0 text-[11px] tracking-[0.22em] uppercase ${time}`}
-            >
+          <div className="pt-2">
+            <p className={`m-0 text-xs tracking-[0.25em] uppercase ${time}`}>
               {item.time}
             </p>
-            <p
-              className={`m-0 mt-1 font-display text-[19px] leading-snug ${title}`}
-            >
+            <p className={`m-0 mt-1 font-display text-xl font-medium leading-snug ${title}`}>
               {item.title}
             </p>
           </div>
@@ -317,14 +262,6 @@ export function ProgramTimeline({
 /* ===========================================================================
    MENÜ VE EK BİLGİLER
    ========================================================================= */
-
-/**
- * Yemek menüsü — çerçeveli kart içinde, ortalanmış liste.
- *
- * `showTitle`, bölümü zaten kendi başlığıyla etiketleyen temalar için
- * (Kırmızı Kına'nın numaralı başlıkları gibi) kapatılabilir; aksi hâlde
- * "MENÜ" iki kez üst üste yazılıyordu.
- */
 export function MenuCard({
   menu,
   tone = "light",
@@ -337,28 +274,26 @@ export function MenuCard({
 
   return (
     <div
-      className={`relative px-7 sm:px-12 py-10 text-center ${
-        dark ? "border border-white/15" : "border border-black/12"
+      className={`relative px-8 sm:px-14 py-12 text-center rounded-2xl backdrop-blur-md ${
+        dark
+          ? "border border-amber-400/30 bg-zinc-950/80 shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
+          : "border border-amber-600/20 bg-white/90 shadow-xl"
       } ${className ?? ""}`}
     >
       <BotanicalSprig
-        className={`w-20 h-auto mx-auto mb-6 ${dark ? "text-white/40" : "text-black/25"}`}
+        className={`w-20 h-auto mx-auto mb-6 ${dark ? "text-amber-400/80" : "text-amber-700/80"}`}
       />
       {showTitle && (
-        <p
-          className={`m-0 mb-7 text-[11px] tracking-[0.34em] uppercase ${
-            dark ? "text-white/50" : "text-black/40"
-          }`}
-        >
-          Menü
+        <p className={`m-0 mb-8 text-xs font-semibold tracking-[0.35em] uppercase ${dark ? "text-amber-400" : "text-amber-800"}`}>
+          Düğün Menüsü
         </p>
       )}
-      <ul className="list-none p-0 m-0 flex flex-col gap-3.5">
+      <ul className="list-none p-0 m-0 flex flex-col gap-4">
         {menu.map((item, i) => (
           <li
             key={`${item}-${i}`}
-            className={`font-display text-[18px] leading-snug ${
-              dark ? "text-white/85" : "text-ink"
+            className={`font-display text-lg font-medium leading-snug ${
+              dark ? "text-amber-100/90" : "text-zinc-800"
             }`}
           >
             {item}
@@ -369,7 +304,6 @@ export function MenuCard({
   );
 }
 
-/** Vale, otel, kıyafet kodu gibi pratik notlar. */
 export function ExtraInfoCard({
   text,
   tone = "light",
@@ -382,21 +316,18 @@ export function ExtraInfoCard({
 
   return (
     <div
-      className={`px-7 sm:px-12 py-10 ${
-        dark ? "border border-white/15" : "border border-black/12"
+      className={`px-8 sm:px-14 py-12 rounded-2xl backdrop-blur-md ${
+        dark
+          ? "border border-amber-400/30 bg-zinc-950/80 shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
+          : "border border-amber-600/20 bg-white/90 shadow-xl"
       } ${className ?? ""}`}
     >
       {showTitle && (
-        <p
-          className={`m-0 mb-6 text-[11px] tracking-[0.34em] uppercase text-center ${
-            dark ? "text-white/50" : "text-black/40"
-          }`}
-        >
-          Ek Bilgiler
+        <p className={`m-0 mb-6 text-xs font-semibold tracking-[0.35em] uppercase text-center ${dark ? "text-amber-400" : "text-amber-800"}`}>
+          Faydalı Bilgiler &amp; Notlar
         </p>
       )}
-      {/* Müşteri satır satır yazıyor; her satır ayrı bir madde olsun */}
-      <ul className="list-none p-0 m-0 flex flex-col gap-3">
+      <ul className="list-none p-0 m-0 flex flex-col gap-4">
         {text
           .split("\n")
           .map((line) => line.trim())
@@ -404,14 +335,14 @@ export function ExtraInfoCard({
           .map((line, i) => (
             <li
               key={`${line}-${i}`}
-              className={`flex items-start gap-3 text-[14.5px] leading-[1.7] ${
-                dark ? "text-white/70" : "text-muted"
+              className={`flex items-start gap-3.5 text-sm leading-relaxed ${
+                dark ? "text-amber-100/80" : "text-zinc-700"
               }`}
             >
               <span
                 aria-hidden="true"
-                className={`mt-2.5 shrink-0 w-1 h-1 rounded-full ${
-                  dark ? "bg-white/40" : "bg-black/30"
+                className={`mt-2 shrink-0 w-2 h-2 rounded-full ${
+                  dark ? "bg-amber-400 shadow-[0_0_8px_#d4af37]" : "bg-amber-600"
                 }`}
               />
               {line}
@@ -425,13 +356,6 @@ export function ExtraInfoCard({
 /* ===========================================================================
    GERİ SAYIM KUTULARI
    ========================================================================= */
-
-/**
- * Geri sayımın çerçeveli kutu biçimi.
- *
- * Yükseklik `min-h` ile sabit: sayaç ilk render'da boş gelir (hidrasyon
- * uyuşmazlığını önlemek için) ve sayı belirdiğinde sayfa zıplamamalı.
- */
 export function CountdownBoxes({
   eventAt,
   tone = "dark",
@@ -459,34 +383,32 @@ export function CountdownBoxes({
 
   return (
     <div className={`text-center ${className ?? ""}`}>
-      <p
-        className={`m-0 mb-7 text-[11px] tracking-[0.3em] uppercase ${
-          dark ? "text-white/45" : "text-black/40"
-        }`}
-      >
-        {dateLabel} tarihine kadar
+      <p className={`m-0 mb-8 text-xs font-semibold tracking-[0.35em] uppercase ${dark ? "text-amber-300/80" : "text-amber-800/80"}`}>
+        {dateLabel} Tarihine Kalan Süre
       </p>
 
-      <div className="min-h-[124px]">
+      <div className="min-h-[130px]">
         {parts && !countdown?.past && (
-          <div className="flex justify-center gap-2 sm:gap-4">
+          <div className="flex justify-center gap-3 sm:gap-6 flex-wrap">
             {parts.map((p) => (
               <div
                 key={p.label}
-                className={`min-w-[70px] sm:min-w-[94px] px-2 sm:px-3 py-5 ${
-                  dark ? "border border-white/25" : "border border-black/15"
+                className={`min-w-[75px] sm:min-w-[105px] px-3 sm:px-4 py-5 rounded-2xl backdrop-blur-md border transition-transform hover:scale-105 ${
+                  dark
+                    ? "border-amber-400/40 bg-black/60 shadow-[0_0_25px_rgba(212,175,55,0.2)]"
+                    : "border-amber-600/30 bg-amber-50 shadow-md"
                 }`}
               >
                 <p
-                  className={`m-0 font-display text-[clamp(1.7rem,6.5vw,2.5rem)] leading-none tabular-nums ${
-                    dark ? "text-white" : "text-ink"
+                  className={`m-0 font-display text-3xl sm:text-4xl font-bold leading-none tabular-nums ${
+                    dark ? "text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-400" : "text-amber-900"
                   }`}
                 >
                   {pad(p.value)}
                 </p>
                 <p
-                  className={`m-0 mt-2.5 text-[9.5px] sm:text-[10px] tracking-[0.2em] uppercase ${
-                    dark ? "text-white/45" : "text-black/40"
+                  className={`m-0 mt-3 text-[10px] sm:text-xs font-semibold tracking-[0.25em] uppercase ${
+                    dark ? "text-amber-300/70" : "text-amber-800/70"
                   }`}
                 >
                   {p.label}
@@ -497,15 +419,12 @@ export function CountdownBoxes({
         )}
 
         {countdown?.past && (
-          <p
-            className={`font-display italic text-2xl m-0 pt-8 ${
-              dark ? "text-white/85" : "text-ink"
-            }`}
-          >
-            O gün geldi.
+          <p className={`font-display italic text-3xl m-0 pt-6 ${dark ? "text-amber-300" : "text-amber-900"}`}>
+            Büyük gün geldi! 🎉
           </p>
         )}
       </div>
     </div>
   );
 }
+

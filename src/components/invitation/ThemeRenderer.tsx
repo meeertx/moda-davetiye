@@ -5,31 +5,34 @@ import KalpCizgisi from "./themes/KalpCizgisi";
 import ZeytinBahcesi from "./themes/ZeytinBahcesi";
 import SozVakti from "./themes/SozVakti";
 import NisanCemberi from "./themes/NisanCemberi";
+import RoyalStarlight from "./themes/RoyalStarlight";
 import type { ThemeProps } from "@/types/invitation";
 
-/**
- * Tema kayıt defteri.
- *
- * Yeni tema eklemek = `themes/` altına bir bileşen yazıp buraya kaydetmek.
- * Sistemin geri kalanı (route, veri okuma, admin editörü) değişmez.
- *
- * Bileşen tipi yerine render fonksiyonu tutuluyor: render sırasında
- * bileşen tipi seçmek React'in kimlik takibini bozabiliyor (aynı ağaçta
- * tema değişince tüm alt ağaç yeniden kurulurdu).
- *
- * Her tema kendi YAPISINI kurar, yalnızca paletini değil:
- *  · Belle Époque   — ortalanmış tek sütun, koyu ipek
- *  · Kırmızı Kına   — sola dayalı, numaralı bölümler, yatay zaman çizelgesi
- *  · Mermer & Yaldız— sabit sol panel + kayan sağ sütun
- *  · Kalp Çizgisi   — açık zemin, minimal, bölümleri bağlayan tek çizgi
- *  · Zeytin Bahçesi — açık zemin, etiket/içerik ızgarası
- *  · Söz Vakti      — tek ekran duyuru, kaydırma yok
- *  · Nişan Çemberi  — çember geometrisi, fotoğraf omurgalı
- */
 const RENDERERS: Record<string, (props: ThemeProps) => React.ReactElement> = {
+  // Ultra Lüks & Efektli Amiral Gemisi Temalar
+  "royal-starlight": (props) => <RoyalStarlight {...props} />,
+  "altin-bahce-kapisi": (props) => <RoyalStarlight {...props} />,
+  "mansion-lights": (props) => <RoyalStarlight {...props} />,
+  "dream-mum-muhur": (props) => <RoyalStarlight {...props} />,
+
+  // Standart & AI Görsel Üretim Temaları
+  "atelier-indigo": (props) => <SozVakti {...props} />,
+  "couplet-kugular": (props) => <ZeytinBahcesi {...props} />,
+  "jasmine-pembe-yasemin": (props) => <NisanCemberi {...props} />,
+  "arch-botanik-demir-kapi": (props) => <KalpCizgisi {...props} />,
+  "meadow-kir-cicekleri": (props) => <ZeytinBahcesi {...props} />,
+  "magnolia-saf-beyaz": (props) => <BelleEpoque {...props} />,
+  "botanical-tropik-yesil": (props) => <ZeytinBahcesi {...props} />,
+  "lavender-provence": (props) => <ZeytinBahcesi {...props} />,
+  "wisteria-mor-salkim": (props) => <SozVakti {...props} />,
+  "slot-machine-retro": (props) => <SozVakti {...props} />,
+  "under-soft-lights": (props) => <SozVakti {...props} />,
+  "nar-oryantal-kina": (props) => <KirmiziKina {...props} />,
+
+  // Klasik Tema Slug'ları
   "belle-epoque": (props) => <BelleEpoque {...props} />,
   "kirmizi-kina": (props) => <KirmiziKina {...props} />,
-  "mermer-yaldiz": (props) => <MermerYaldiz {...props} />,
+  "mermer-yaldiz": (props) => <RoyalStarlight {...props} />,
   "kalp-cizgisi": (props) => <KalpCizgisi {...props} />,
   "zeytin-bahcesi": (props) => <ZeytinBahcesi {...props} />,
   "soz-vakti": (props) => <SozVakti {...props} />,

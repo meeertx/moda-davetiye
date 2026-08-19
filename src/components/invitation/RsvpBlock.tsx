@@ -194,13 +194,13 @@ export default function RsvpBlock({
 
       <button
         type="submit"
-        className={`cursor-pointer border px-6 py-4 mt-3 rounded-full text-[12px] tracking-[0.18em] uppercase transition-colors ${
+        className={`cursor-pointer px-8 py-4 mt-3 rounded-full text-xs font-semibold tracking-[0.2em] uppercase transition-all duration-300 transform hover:scale-105 shadow-lg ${
           dark
-            ? "bg-transparent border-white/45 text-white hover:bg-white hover:text-black"
-            : "bg-transparent border-ink text-ink hover:bg-ink hover:text-cream"
+            ? "bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-black border border-amber-300 shadow-[0_0_30px_rgba(212,175,55,0.4)]"
+            : "bg-gradient-to-r from-amber-700 via-amber-600 to-amber-800 text-white border border-amber-600 shadow-[0_0_25px_rgba(180,130,40,0.3)]"
         }`}
       >
-        Yanıtımı Gönder
+        ✨ Yanıtımı Gönder
       </button>
     </form>
   );

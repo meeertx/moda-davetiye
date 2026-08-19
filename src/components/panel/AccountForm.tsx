@@ -27,9 +27,9 @@ export default function AccountForm({
     <form action={formAction} className="flex flex-col gap-4">
       {state.error && <FormMessage>{state.error}</FormMessage>}
       {state.ok && (
-        <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs font-semibold flex items-center gap-2 animate-pulse">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-          <span>✨ {state.ok}</span>
+        <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs font-semibold flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-500" />
+          <span>{state.ok}</span>
         </div>
       )}
 
@@ -68,10 +68,10 @@ export default function AccountForm({
         variant="gold"
         shape="pill"
         size="sm"
-        pendingLabel="Supabase Veritabanına Kaydediliyor…"
+        pendingLabel="Kaydediliyor…"
         className="self-start mt-2 px-6 font-semibold apple-press"
       >
-        💾 Değişiklikleri Veritabanına Kaydet
+        Değişiklikleri Kaydet
       </SubmitButton>
     </form>
   );

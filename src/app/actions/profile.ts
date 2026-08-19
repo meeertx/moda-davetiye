@@ -101,7 +101,7 @@ export async function updateProfileAction(
   revalidatePath("/", "layout");
   revalidatePath("/panel", "layout");
   revalidatePath("/admin", "layout");
-  return { ok: "Profil bilgileriniz Supabase veritabanına anında kaydedildi." };
+  return { ok: "Profil bilgileriniz güncellendi." };
 }
 
 // --- E-posta ----------------------------------------------------------------

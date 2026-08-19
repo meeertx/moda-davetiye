@@ -8,6 +8,7 @@ import {
 import { inputClass, labelClass, hintClass } from "@/components/ui/field";
 import FormMessage from "@/components/ui/FormMessage";
 import SubmitButton from "@/components/ui/SubmitButton";
+import Toast from "@/components/ui/Toast";
 
 const field = inputClass("panel");
 
@@ -20,7 +21,16 @@ export default function PasswordForm() {
   return (
     <form action={formAction} className="flex flex-col gap-4">
       {state.error && <FormMessage>{state.error}</FormMessage>}
-      {state.ok && <FormMessage tone="ok">{state.ok}</FormMessage>}
+      {state.ok && (
+        <>
+          <FormMessage tone="ok">{state.ok}</FormMessage>
+          <Toast
+            title="Şifreniz Güncellendi 🔑"
+            message={state.ok}
+            type="success"
+          />
+        </>
+      )}
 
       <div className="max-w-[320px]">
         <label htmlFor="current_password" className={labelClass}>
@@ -75,10 +85,11 @@ export default function PasswordForm() {
       </p>
 
       <SubmitButton
-        variant="secondary"
+        variant="gold"
+        shape="pill"
         size="sm"
         pendingLabel="Güncelleniyor…"
-        className="self-start mt-1"
+        className="self-start mt-1 px-6 font-semibold apple-press"
       >
         Şifreyi Değiştir
       </SubmitButton>

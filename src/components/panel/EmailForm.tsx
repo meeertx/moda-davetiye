@@ -8,6 +8,7 @@ import {
 import { inputClass, labelClass, hintClass } from "@/components/ui/field";
 import FormMessage from "@/components/ui/FormMessage";
 import SubmitButton from "@/components/ui/SubmitButton";
+import Toast from "@/components/ui/Toast";
 
 const field = inputClass("panel");
 
@@ -20,11 +21,20 @@ export default function EmailForm({ current }: { current: string }) {
   return (
     <form action={formAction} className="flex flex-col gap-4">
       {state.error && <FormMessage>{state.error}</FormMessage>}
-      {state.ok && <FormMessage tone="ok">{state.ok}</FormMessage>}
+      {state.ok && (
+        <>
+          <FormMessage tone="ok">{state.ok}</FormMessage>
+          <Toast
+            title="E-posta İsteği Gönderildi 📩"
+            message={state.ok}
+            type="success"
+          />
+        </>
+      )}
 
       <div>
         <span className={labelClass}>Mevcut e-posta</span>
-        <div className="text-sm py-3">{current}</div>
+        <div className="text-sm py-3 font-medium text-ink">{current}</div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -65,10 +75,11 @@ export default function EmailForm({ current }: { current: string }) {
       </p>
 
       <SubmitButton
-        variant="secondary"
+        variant="gold"
+        shape="pill"
         size="sm"
         pendingLabel="Gönderiliyor…"
-        className="self-start mt-1"
+        className="self-start mt-1 px-6 font-semibold apple-press"
       >
         E-postayı Değiştir
       </SubmitButton>

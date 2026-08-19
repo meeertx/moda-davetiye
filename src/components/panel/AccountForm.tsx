@@ -8,6 +8,7 @@ import {
 import { inputClass, labelClass } from "@/components/ui/field";
 import FormMessage from "@/components/ui/FormMessage";
 import SubmitButton from "@/components/ui/SubmitButton";
+import Toast from "@/components/ui/Toast";
 
 const field = inputClass("panel");
 
@@ -27,10 +28,14 @@ export default function AccountForm({
     <form action={formAction} className="flex flex-col gap-4">
       {state.error && <FormMessage>{state.error}</FormMessage>}
       {state.ok && (
-        <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs font-semibold flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500" />
-          <span>{state.ok}</span>
-        </div>
+        <>
+          <FormMessage tone="ok">{state.ok}</FormMessage>
+          <Toast
+            title="Profil Güncellendi ✨"
+            message={state.ok}
+            type="success"
+          />
+        </>
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

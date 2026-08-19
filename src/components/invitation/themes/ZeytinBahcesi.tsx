@@ -4,6 +4,7 @@ import { useCountdown } from "../useCountdown";
 import RsvpBlock from "../RsvpBlock";
 import GuestPhotoBlock from "../GuestPhotoBlock";
 import OpeningGate from "../OpeningGate";
+import { SunlightAuraCanvas } from "../ThemeCanvases";
 // MenuCard/ExtraInfoCard/ProgramTimeline alınmadı: hepsi kendi
 // çerçevesini çiziyor, bu tema ise içeriği etiket/içerik ızgarasında
 // çerçevesiz sunuyor. Aynı veri, temanın kendi diliyle yazıldı.
@@ -102,6 +103,8 @@ function Row({
   );
 }
 
+
+
 export default function ZeytinBahcesi({ content, preview }: ThemeProps) {
   const countdown = useCountdown(content.eventAt);
 
@@ -135,202 +138,216 @@ export default function ZeytinBahcesi({ content, preview }: ThemeProps) {
       ornament={<OliveBranch size={54} />}
     >
       <div
-        className="min-h-screen font-body"
+        className="relative min-h-screen font-body overflow-hidden"
         style={{ background: linen, color: bark }}
       >
-        {/* AÇILIŞ */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 py-24 overflow-hidden">
-          <div aria-hidden="true" className="absolute top-10 left-8 opacity-70">
-            <OliveBranch size={90} />
-          </div>
-          <div
-            aria-hidden="true"
-            className="absolute bottom-10 right-8 opacity-70"
-          >
-            <OliveBranch size={90} flip />
-          </div>
+        <SunlightAuraCanvas />
 
-          <div className="relative">
+        {/* AÇILIŞ — Centered Mediterranean Parchment Card */}
+        <section className="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-4 py-24 overflow-hidden">
+          <div className="relative w-full max-w-[720px] p-8 sm:p-16 rounded-3xl border-2 border-amber-600/40 bg-white/85 backdrop-blur-xl shadow-[0_20px_60px_rgba(78,90,56,0.2)] flex flex-col items-center">
+            
+            <div className="mb-6 animate-pulse">
+              <OliveBranch size={64} />
+            </div>
+
             <p
-              className="text-[10.5px] tracking-[0.42em] uppercase m-0 mb-8"
+              className="text-xs tracking-[0.45em] uppercase m-0 mb-6 font-semibold"
               style={{ color: olive }}
             >
-              {EVENT_HEADINGS[content.eventType]}
+              🌿 {EVENT_HEADINGS[content.eventType]} 🌿
             </p>
 
-            <h1 className="font-display font-medium m-0 leading-[1] text-[clamp(2.8rem,11vw,5.4rem)]">
+            <h1 className="font-display font-medium m-0 leading-[1] text-[clamp(3.2rem,11vw,5.5rem)] text-zinc-900">
               {content.brideName}
               <span
-                className="block text-[clamp(1.1rem,3vw,1.5rem)] italic my-3"
-                style={{ color: olive }}
+                className="block text-2xl italic my-2 text-amber-700 font-script"
               >
-                ve
+                &amp;
               </span>
               {content.groomName}
             </h1>
 
-            <ParentsLine content={content} tone="light" className="mt-10" />
+            <ParentsLine content={content} tone="light" className="mt-8" />
 
             {fmt({ day: "numeric", month: "long", year: "numeric" }) && (
-              <p className="mt-10 text-[15px] tracking-[0.16em] uppercase m-0">
-                {fmt({ day: "numeric", month: "long", year: "numeric" })}
-                {fmt({ hour: "2-digit", minute: "2-digit" }) && (
-                  <span style={{ color: olive }}>
-                    {" · "}
-                    {fmt({ hour: "2-digit", minute: "2-digit" })}
-                  </span>
-                )}
+              <p
+                className="mt-8 text-base sm:text-lg tracking-[0.2em] uppercase m-0 font-medium text-amber-900"
+              >
+                🗓️ {fmt({ day: "numeric", month: "long", year: "numeric" })}
+                {fmt({ hour: "2-digit", minute: "2-digit" }) &&
+                  ` · ⏰ ${fmt({ hour: "2-digit", minute: "2-digit" })}`}
+              </p>
+            )}
+
+            {content.venueName && (
+              <p className="mt-3 text-sm tracking-[0.14em] uppercase m-0 text-zinc-600 font-medium">
+                📍 {content.venueName}
               </p>
             )}
 
             {countdown && !countdown.past && (
-              <p
-                className="mt-6 text-[14px] m-0"
-                style={{ color: oliveDeep }}
-              >
-                {countdown.days} gün {countdown.hours} saat kaldı
-              </p>
+              <div className="mt-8 px-6 py-3 rounded-full bg-amber-50 border border-amber-600/30 shadow-sm text-sm" style={{ color: bark }}>
+                <span className="font-display text-3xl font-bold text-amber-900 tabular-nums align-middle mr-2">
+                  {countdown.days}
+                </span>
+                <span className="align-middle uppercase tracking-widest text-xs font-semibold text-amber-800">gün kaldı</span>
+              </div>
             )}
           </div>
         </section>
 
-        {/* İÇERİK — etiket/içerik ızgarası */}
-        <div className={`${col} pb-24`}>
+        {/* İÇERİK — Fiziksel Cam Kartlar */}
+        <div className="relative z-10 w-full max-w-[840px] mx-auto px-4 pb-24">
           {content.story && (
-            <Row label="Hikayemiz">
-              <p className="font-display text-[clamp(1.2rem,3.4vw,1.55rem)] leading-[1.7] m-0 whitespace-pre-line">
-                {content.story}
-              </p>
-            </Row>
+            <div className="p-8 sm:p-12 rounded-3xl bg-white/85 backdrop-blur-xl border border-amber-600/30 shadow-[0_15px_45px_rgba(78,90,56,0.12)] mb-8">
+              <Row label="Hikayemiz">
+                <p className="font-display text-[clamp(1.2rem,3.4vw,1.55rem)] leading-[1.7] m-0 text-zinc-900 whitespace-pre-line">
+                  {content.story}
+                </p>
+              </Row>
+            </div>
           )}
 
           {content.program.length > 0 && (
-            <Row label="Program">
-              <ol className="list-none p-0 m-0 flex flex-col gap-4">
-                {content.program.map((p, i) => (
-                  <li
-                    key={`${p.time}-${i}`}
-                    className="flex gap-5 items-baseline"
-                  >
-                    <span
-                      className="font-display text-lg tabular-nums w-16 shrink-0"
-                      style={{ color: oliveDeep }}
+            <div className="p-8 sm:p-12 rounded-3xl bg-white/85 backdrop-blur-xl border border-amber-600/30 shadow-[0_15px_45px_rgba(78,90,56,0.12)] mb-8">
+              <Row label="Program">
+                <ol className="list-none p-0 m-0 flex flex-col gap-4">
+                  {content.program.map((p, i) => (
+                    <li
+                      key={`${p.time}-${i}`}
+                      className="flex gap-5 items-center p-3.5 rounded-2xl bg-amber-50/60 border border-amber-200/50"
                     >
-                      {p.time}
-                    </span>
-                    <span className="text-[15px]">{p.title}</span>
-                  </li>
-                ))}
-              </ol>
-            </Row>
+                      <span
+                        className="font-display text-xl font-bold tabular-nums w-20 shrink-0 text-amber-900"
+                      >
+                        {p.time}
+                      </span>
+                      <span className="text-sm font-semibold text-zinc-800">{p.title}</span>
+                    </li>
+                  ))}
+                </ol>
+              </Row>
+            </div>
           )}
 
           {content.photoUrls.length > 0 && (
-            <Row label="Fotoğraflar">
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {content.photoUrls.map((url, i) => (
-                  <div
-                    key={url}
-                    className="relative aspect-[4/5] overflow-hidden rounded-[3px]"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={url}
-                      alt={`${content.brideName} ve ${content.groomName} — fotoğraf ${i + 1}`}
-                      loading={i < 3 ? "eager" : "lazy"}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            </Row>
+            <div className="p-8 sm:p-12 rounded-3xl bg-white/85 backdrop-blur-xl border border-amber-600/30 shadow-[0_15px_45px_rgba(78,90,56,0.12)] mb-8">
+              <Row label="Fotoğraflar">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  {content.photoUrls.map((url, i) => (
+                    <div
+                      key={url}
+                      className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-amber-200 shadow-md transform hover:scale-105 transition-transform duration-300"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={url}
+                        alt={`${content.brideName} ve ${content.groomName} — fotoğraf ${i + 1}`}
+                        loading={i < 3 ? "eager" : "lazy"}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </Row>
+            </div>
           )}
 
           {(content.venueName || content.venueAddress) && (
-            <Row label="Konum">
-              {content.venueName && (
-                <p className="font-display text-[24px] m-0 mb-2">
-                  {content.venueName}
-                </p>
-              )}
-              {content.venueAddress && (
-                <p className="text-[15px] leading-[1.7] m-0 opacity-70">
-                  {content.venueAddress}
-                </p>
-              )}
-              <VenueMap content={content} tone="light" className="mt-6" />
-              <EventActions content={content} tone="light" className="mt-5" />
-            </Row>
+            <div className="p-8 sm:p-12 rounded-3xl bg-white/85 backdrop-blur-xl border border-amber-600/30 shadow-[0_15px_45px_rgba(78,90,56,0.12)] mb-8">
+              <Row label="Konum">
+                {content.venueName && (
+                  <p className="font-display text-2xl font-bold text-zinc-900 m-0 mb-2">
+                    📍 {content.venueName}
+                  </p>
+                )}
+                {content.venueAddress && (
+                  <p className="text-sm leading-relaxed m-0 text-zinc-600 font-medium">
+                    {content.venueAddress}
+                  </p>
+                )}
+                <VenueMap content={content} tone="light" className="mt-6 rounded-2xl" />
+                <EventActions content={content} tone="light" className="mt-5" />
+              </Row>
+            </div>
           )}
 
           {content.menu.length > 0 && (
-            <Row label="Menü">
-              {/* Kart çerçevesi bu temanın ızgarasıyla çakışıyordu:
-                  satırlar zaten `Row` içinde etiketlenmiş durumda. */}
-              <ul className="list-none p-0 m-0 flex flex-col gap-3">
-                {content.menu.map((item, i) => (
-                  <li
-                    key={`${item}-${i}`}
-                    className="font-display text-[17px] leading-snug"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </Row>
+            <div className="p-8 sm:p-12 rounded-3xl bg-white/85 backdrop-blur-xl border border-amber-600/30 shadow-[0_15px_45px_rgba(78,90,56,0.12)] mb-8">
+              <Row label="Menü">
+                <ul className="list-none p-0 m-0 flex flex-col gap-3">
+                  {content.menu.map((item, i) => (
+                    <li
+                      key={`${item}-${i}`}
+                      className="font-display text-lg font-medium text-zinc-800"
+                    >
+                      • {item}
+                    </li>
+                  ))}
+                </ul>
+              </Row>
+            </div>
           )}
 
           {content.extraInfo && (
-            <Row label="Ek Bilgiler">
-              <ul className="list-none p-0 m-0 flex flex-col gap-2.5">
-                {content.extraInfo
-                  .split("\n")
-                  .map((line) => line.trim())
-                  .filter(Boolean)
-                  .map((line, i) => (
-                    <li
-                      key={`${line}-${i}`}
-                      className="text-[15px] leading-[1.7] opacity-75"
-                    >
-                      {line}
-                    </li>
-                  ))}
-              </ul>
-            </Row>
+            <div className="p-8 sm:p-12 rounded-3xl bg-white/85 backdrop-blur-xl border border-amber-600/30 shadow-[0_15px_45px_rgba(78,90,56,0.12)] mb-8">
+              <Row label="Ek Bilgiler">
+                <ul className="list-none p-0 m-0 flex flex-col gap-3">
+                  {content.extraInfo
+                    .split("\n")
+                    .map((line) => line.trim())
+                    .filter(Boolean)
+                    .map((line, i) => (
+                      <li
+                        key={`${line}-${i}`}
+                        className="text-sm leading-relaxed text-zinc-700 font-medium"
+                      >
+                        ✓ {line}
+                      </li>
+                    ))}
+                </ul>
+              </Row>
+            </div>
           )}
 
           {content.rsvp.enabled && (
-            <Row label="Katılım">
-              <RsvpBlock content={content} tone="light" preview={preview} />
-            </Row>
+            <div className="p-8 sm:p-12 rounded-3xl bg-white/85 backdrop-blur-xl border border-amber-600/30 shadow-[0_15px_45px_rgba(78,90,56,0.12)] mb-8">
+              <Row label="Katılım">
+                <RsvpBlock content={content} tone="light" preview={preview} />
+              </Row>
+            </div>
           )}
 
           {content.guestPhotosEnabled && (
-            <Row label="Anı Bırakın">
-              <GuestPhotoBlock
-                content={content}
-                tone="light"
-                preview={preview}
-              />
-            </Row>
+            <div className="p-8 sm:p-12 rounded-3xl bg-white/85 backdrop-blur-xl border border-amber-600/30 shadow-[0_15px_45px_rgba(78,90,56,0.12)] mb-8">
+              <Row label="Anı Bırakın">
+                <GuestPhotoBlock
+                  content={content}
+                  tone="light"
+                  preview={preview}
+                />
+              </Row>
+            </div>
           )}
 
           {(content.giftNote || content.giftIban) && (
-            <Row label="Hediye">
-              {content.giftNote && (
-                <p className="font-display text-lg leading-[1.6] m-0">
-                  {content.giftNote}
-                </p>
-              )}
-              {content.giftIban && (
-                <p
-                  className="mt-4 text-[15px] tracking-[0.06em] tabular-nums m-0 break-all"
-                  style={{ color: oliveDeep }}
-                >
-                  {content.giftIban}
-                </p>
-              )}
-            </Row>
+            <div className="p-8 sm:p-12 rounded-3xl bg-white/85 backdrop-blur-xl border border-amber-600/30 shadow-[0_15px_45px_rgba(78,90,56,0.12)] mb-8">
+              <Row label="Hediye">
+                {content.giftNote && (
+                  <p className="font-display text-lg leading-relaxed m-0 text-zinc-800 italic">
+                    {content.giftNote}
+                  </p>
+                )}
+                {content.giftIban && (
+                  <p
+                    className="mt-4 text-sm tracking-wider font-mono tabular-nums m-0 break-all p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 font-semibold"
+                  >
+                    {content.giftIban}
+                  </p>
+                )}
+              </Row>
+            </div>
           )}
 
           <footer

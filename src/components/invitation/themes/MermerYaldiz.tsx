@@ -4,6 +4,7 @@ import { useCountdown, pad } from "../useCountdown";
 import RsvpBlock from "../RsvpBlock";
 import GuestPhotoBlock from "../GuestPhotoBlock";
 import OpeningGate from "../OpeningGate";
+import { MarbleGoldShimmerCanvas } from "../ThemeCanvases";
 import {
   EventActions,
   ExtraInfoCard,
@@ -67,6 +68,8 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
+
+
 export default function MermerYaldiz({ content, preview }: ThemeProps) {
   const countdown = useCountdown(content.eventAt);
 
@@ -87,8 +90,6 @@ export default function MermerYaldiz({ content, preview }: ThemeProps) {
         foreground: bone,
         accent: gold,
         onAccent: marble,
-        // Mermer teması soğuk ve grafik: zarf da beyaz-gri mermer
-        // tonunda, mühür yaldız.
         envelope: {
           paper: "#e8e4dd",
           paperShade: "#dcd7ce",
@@ -102,16 +103,17 @@ export default function MermerYaldiz({ content, preview }: ThemeProps) {
       ornament={<Diamond />}
     >
       <div
-        className="min-h-screen font-body lg:flex"
+        className="relative min-h-screen font-body lg:flex overflow-hidden"
         style={{ background: marble, color: bone }}
       >
+        <MarbleGoldShimmerCanvas />
+
         {/* SOL PANEL — geniş ekranda sabit kalır */}
         <aside
-          className="lg:w-[42%] lg:h-screen lg:sticky lg:top-0 flex items-center px-8 sm:px-14 py-20 lg:py-0 relative overflow-hidden"
+          className="lg:w-[42%] lg:h-screen lg:sticky lg:top-0 flex items-center px-8 sm:px-14 py-20 lg:py-0 relative overflow-hidden bg-black/60 backdrop-blur-md shadow-2xl z-10"
           style={{
-            backgroundColor: marbleLift,
             backgroundImage: marbleTexture,
-            borderRight: `1px solid ${gold}1f`,
+            borderRight: `1px solid ${gold}40`,
           }}
         >
           {/* Blok panelde ortalanır, metin içinde sola hizalı kalır —
@@ -190,33 +192,32 @@ export default function MermerYaldiz({ content, preview }: ThemeProps) {
             `lg:mx-0` kaldırıldı: içerik 58%'lik panelin soluna yapışıp
             sağında geniş bir boşluk bırakıyordu. Artık kendi paneli
             içinde ortalanıyor. */}
-        <main className="lg:w-[58%] px-8 sm:px-14 py-20 lg:py-28">
-          <div className="max-w-[620px] mx-auto flex flex-col gap-20">
+        <main className="lg:w-[58%] px-6 sm:px-14 py-20 lg:py-28">
+          <div className="max-w-[620px] mx-auto flex flex-col gap-10">
             {content.story && (
-              <section>
+              <section className="p-8 sm:p-10 rounded-3xl bg-zinc-950/80 backdrop-blur-xl border border-amber-400/40 shadow-[0_10px_40px_rgba(0,0,0,0.8),0_0_20px_rgba(200,162,76,0.15)]">
                 <SectionLabel>Hikayemiz</SectionLabel>
-                <p className="font-display text-[clamp(1.2rem,3vw,1.5rem)] leading-[1.7] m-0 whitespace-pre-line opacity-90">
+                <p className="font-display italic text-[clamp(1.2rem,3vw,1.55rem)] leading-[1.7] m-0 text-amber-100/90 whitespace-pre-line">
                   {content.story}
                 </p>
               </section>
             )}
 
             {content.program.length > 0 && (
-              <section>
+              <section className="p-8 sm:p-10 rounded-3xl bg-zinc-950/80 backdrop-blur-xl border border-amber-400/40 shadow-[0_10px_40px_rgba(0,0,0,0.8),0_0_20px_rgba(200,162,76,0.15)]">
                 <SectionLabel>Program</SectionLabel>
                 <ProgramTimeline program={content.program} tone="dark" />
               </section>
             )}
 
             {content.photoUrls.length > 0 && (
-              <section>
+              <section className="p-8 sm:p-10 rounded-3xl bg-zinc-950/80 backdrop-blur-xl border border-amber-400/40 shadow-[0_10px_40px_rgba(0,0,0,0.8),0_0_20px_rgba(200,162,76,0.15)]">
                 <SectionLabel>Fotoğraflar</SectionLabel>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-4">
                   {content.photoUrls.map((url, i) => (
                     <div
                       key={url}
-                      className="relative aspect-[4/5] overflow-hidden"
-                      style={{ border: `1px solid ${gold}33` }}
+                      className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-amber-400/50 shadow-md transform hover:scale-105 transition-transform duration-300"
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
@@ -232,50 +233,49 @@ export default function MermerYaldiz({ content, preview }: ThemeProps) {
             )}
 
             {(content.venueName || content.venueAddress) && (
-              <section>
+              <section className="p-8 sm:p-10 rounded-3xl bg-zinc-950/80 backdrop-blur-xl border border-amber-400/40 shadow-[0_10px_40px_rgba(0,0,0,0.8),0_0_20px_rgba(200,162,76,0.15)]">
                 <SectionLabel>Konum</SectionLabel>
                 {content.venueName && (
-                  <p className="font-display text-[26px] m-0 mb-2">
-                    {content.venueName}
+                  <p className="font-display text-2xl font-bold text-amber-200 m-0 mb-2">
+                    📍 {content.venueName}
                   </p>
                 )}
                 {content.venueAddress && (
-                  <p className="text-[15px] leading-[1.7] m-0 opacity-65">
+                  <p className="text-sm leading-relaxed m-0 text-amber-100/70 font-medium">
                     {content.venueAddress}
                   </p>
                 )}
-                <VenueMap content={content} tone="dark" className="mt-7" />
+                <VenueMap content={content} tone="dark" className="mt-6 rounded-2xl" />
                 <EventActions content={content} tone="dark" className="mt-6" />
               </section>
             )}
 
             {content.menu.length > 0 && (
-              <section>
+              <section className="p-8 sm:p-10 rounded-3xl bg-zinc-950/80 backdrop-blur-xl border border-amber-400/40 shadow-[0_10px_40px_rgba(0,0,0,0.8),0_0_20px_rgba(200,162,76,0.15)]">
                 <SectionLabel>Menü</SectionLabel>
                 <MenuCard menu={content.menu} tone="dark" showTitle={false} />
               </section>
             )}
 
             {content.extraInfo && (
-              <section>
+              <section className="p-8 sm:p-10 rounded-3xl bg-zinc-950/80 backdrop-blur-xl border border-amber-400/40 shadow-[0_10px_40px_rgba(0,0,0,0.8),0_0_20px_rgba(200,162,76,0.15)]">
                 <SectionLabel>Ek Bilgiler</SectionLabel>
                 <ExtraInfoCard text={content.extraInfo} tone="dark" showTitle={false} />
               </section>
             )}
 
             {content.rsvp.enabled && (
-              <section>
+              <section className="p-8 sm:p-10 rounded-3xl bg-zinc-950/80 backdrop-blur-xl border border-amber-400/40 shadow-[0_10px_40px_rgba(0,0,0,0.8),0_0_20px_rgba(200,162,76,0.15)]">
                 <SectionLabel>Katılım Bildirimi</SectionLabel>
                 <RsvpBlock content={content} tone="dark" preview={preview} />
               </section>
             )}
 
             {content.guestPhotosEnabled && (
-              <section>
+              <section className="p-8 sm:p-10 rounded-3xl bg-zinc-950/80 backdrop-blur-xl border border-amber-400/40 shadow-[0_10px_40px_rgba(0,0,0,0.8),0_0_20px_rgba(200,162,76,0.15)]">
                 <SectionLabel>Anı Bırakın</SectionLabel>
-                <p className="text-[15px] leading-[1.7] m-0 mb-8 opacity-70">
-                  Çektiğiniz kareleri bizimle paylaşın — bu günü sizin
-                  gözünüzden de görelim.
+                <p className="text-sm leading-relaxed m-0 mb-8 text-amber-100/70 font-medium">
+                  Çektiğiniz özel kareleri bizimle paylaşın.
                 </p>
                 <GuestPhotoBlock
                   content={content}
@@ -286,17 +286,16 @@ export default function MermerYaldiz({ content, preview }: ThemeProps) {
             )}
 
             {(content.giftNote || content.giftIban) && (
-              <section>
+              <section className="p-8 sm:p-10 rounded-3xl bg-zinc-950/80 backdrop-blur-xl border border-amber-400/40 shadow-[0_10px_40px_rgba(0,0,0,0.8),0_0_20px_rgba(200,162,76,0.15)]">
                 <SectionLabel>Hediye</SectionLabel>
                 {content.giftNote && (
-                  <p className="font-display text-xl leading-[1.6] m-0 opacity-90">
+                  <p className="font-display text-xl leading-relaxed m-0 text-amber-100 italic">
                     {content.giftNote}
                   </p>
                 )}
                 {content.giftIban && (
                   <p
-                    className="mt-5 text-[15px] tracking-[0.08em] tabular-nums m-0 break-all"
-                    style={{ color: gold }}
+                    className="mt-5 text-sm tracking-wider font-mono tabular-nums m-0 break-all p-3 rounded-xl bg-black/60 border border-amber-400/30 text-amber-300 font-semibold"
                   >
                     {content.giftIban}
                   </p>

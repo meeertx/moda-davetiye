@@ -4,6 +4,7 @@ import { useCountdown } from "../useCountdown";
 import RsvpBlock from "../RsvpBlock";
 import GuestPhotoBlock from "../GuestPhotoBlock";
 import OpeningGate from "../OpeningGate";
+import { HennaSparksCanvas } from "../ThemeCanvases";
 import {
   EventActions,
   ExtraInfoCard,
@@ -140,14 +141,6 @@ export default function KirmiziKina({ content, preview }: ThemeProps) {
   const num = (key: string) =>
     String(shown.indexOf(key) + 1).padStart(2, "0");
 
-  /*
-    Bölüm zeminleri de aynı listeden türetiliyor.
-
-    Sabit yazıldığında (bir bölüm `crimsonBand`, sonraki düz) koşullu
-    bölümler gizlenince iki AYNI renkli bölüm yan yana geliyordu; aradaki
-    192px'lik boşluk band geçişi olmadan çıplak bir boşluğa dönüşüyordu.
-    Sıraya göre hesaplanınca dönüşüm her koşulda korunuyor.
-  */
   const bandStyle = (key: string) =>
     shown.indexOf(key) % 2 === 0
       ? undefined
@@ -158,6 +151,7 @@ export default function KirmiziKina({ content, preview }: ThemeProps) {
       content={content}
       palette={{
         base: crimsonDeep,
+        mode: "curtain",
         overlay: `linear-gradient(160deg, ${crimson} 0%, transparent 100%)`,
         foreground: cream,
         accent: goldLeaf,
@@ -178,96 +172,98 @@ export default function KirmiziKina({ content, preview }: ThemeProps) {
       ornament={<Motif size={30} />}
     >
       <div
-        className="min-h-screen font-body"
+        className="relative min-h-screen font-body overflow-hidden"
         style={{ background: crimsonDeep, color: cream }}
       >
+        <HennaSparksCanvas />
         <SideRail />
 
-        {/* AÇILIŞ — sola hizalı, asimetrik */}
-        <section className="relative min-h-screen flex items-center overflow-hidden">
+        {/* AÇILIŞ — Centered Royal Velvet Plaque Card */}
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden z-10 px-4 py-20">
           <div
             aria-hidden="true"
-            className="absolute inset-0"
+            className="absolute inset-0 pointer-events-none"
             style={{
-              background: `radial-gradient(80% 60% at 18% 40%, ${crimson} 0%, transparent 70%)`,
+              background: `radial-gradient(80% 60% at 50% 40%, ${crimson} 0%, transparent 70%)`,
             }}
           />
-          <div className={`relative ${col} py-24`}>
-            <div className="mb-10">
-              <Motif size={34} />
+          
+          {/* Centered Physical Luxury Ottoman Plaque Card */}
+          <div className="relative w-full max-w-[760px] p-8 sm:p-16 rounded-3xl bg-gradient-to-b from-red-950/90 via-zinc-950/95 to-red-950/90 border-2 border-amber-400/80 shadow-[0_20px_80px_rgba(0,0,0,0.9),0_0_50px_rgba(224,180,100,0.25)] backdrop-blur-xl text-center flex flex-col items-center">
+            
+            {/* Inner Gold Frame Border */}
+            <div className="absolute inset-3 border border-amber-400/30 rounded-2xl pointer-events-none" />
+
+            <div className="mb-6 animate-pulse">
+              <Motif size={44} />
             </div>
 
             <p
-              className="text-[11px] tracking-[0.42em] uppercase m-0 mb-7"
+              className="text-xs tracking-[0.45em] uppercase m-0 mb-6 font-semibold"
               style={{ color: goldLeaf }}
             >
-              {EVENT_HEADINGS[content.eventType]}
+              ✨ {EVENT_HEADINGS[content.eventType]} ✨
             </p>
 
-            {/* İsimler alt alta ve sola dayalı — Belle Époque'ta ortalıydı */}
-            <h1 className="font-display font-semibold m-0 leading-[0.92] text-[clamp(3rem,12vw,6.5rem)]">
+            {/* İsimler Centered & Grand */}
+            <h1 className="font-display font-semibold m-0 leading-[0.95] text-[clamp(3.2rem,13vw,6.5rem)] text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-300 to-yellow-200 drop-shadow-[0_4px_15px_rgba(0,0,0,0.9)]">
               <span className="block">{content.brideName}</span>
               <span
-                className="block text-[clamp(1rem,3vw,1.4rem)] font-normal my-4 tracking-[0.3em] uppercase"
-                style={{ color: goldLeaf }}
+                className="block text-xl font-script my-3 tracking-[0.3em] uppercase text-amber-400"
               >
-                ile
+                &amp;
               </span>
               <span className="block">{content.groomName}</span>
             </h1>
 
-            {/* Aileler — temanın sola dayalı düzenine uyar */}
-            <ParentsLine content={content} tone="dark" align="start" className="mt-10" />
+            {/* Aileler */}
+            <ParentsLine content={content} tone="dark" align="center" className="mt-8" />
 
             {dateLabel && (
               <div
-                className="mt-12 pt-7 flex flex-wrap items-baseline gap-x-6 gap-y-2"
-                style={{ borderTop: `1px solid ${goldLeaf}33` }}
+                className="mt-9 pt-6 flex flex-col sm:flex-row items-center justify-center gap-4 text-center border-t border-amber-400/30 w-full"
               >
-                <span className="text-[17px] tracking-[0.08em]">
-                  {dateLabel}
+                <span className="text-lg font-semibold tracking-wider text-amber-100">
+                  🗓️ {dateLabel}
                 </span>
                 {timeLabel && (
                   <span
-                    className="text-[15px] tracking-[0.14em]"
-                    style={{ color: goldLeaf }}
+                    className="text-base tracking-widest font-mono text-amber-300 bg-black/60 px-4 py-1 rounded-full border border-amber-400/30"
                   >
-                    {timeLabel}
+                    ⏰ {timeLabel}
                   </span>
                 )}
                 {content.venueName && (
-                  <span className="text-[14px] opacity-65">
-                    {content.venueName}
+                  <span className="text-sm text-amber-200/80 font-medium">
+                    📍 {content.venueName}
                   </span>
                 )}
               </div>
             )}
 
-            {/* Geri sayım: dört kutu değil, tek cümle */}
+            {/* Geri sayım rozeti */}
             {countdown && !countdown.past && (
-              <p className="mt-8 text-[15px] m-0 opacity-80">
+              <div className="mt-8 px-6 py-3 rounded-full bg-amber-500/20 border border-amber-400/50 shadow-[0_0_20px_rgba(224,180,100,0.3)]">
                 <span
-                  className="font-display text-[30px] tabular-nums align-baseline"
-                  style={{ color: goldLeaf }}
+                  className="font-display text-2xl font-bold tabular-nums text-amber-300 mr-2"
                 >
                   {countdown.days}
                 </span>{" "}
-                gün{" "}
+                <span className="text-xs uppercase tracking-widest text-amber-200 font-medium">gün</span>{" "}
                 <span
-                  className="font-display text-[30px] tabular-nums align-baseline"
-                  style={{ color: goldLeaf }}
+                  className="font-display text-2xl font-bold tabular-nums text-amber-300 mx-2"
                 >
                   {countdown.hours}
                 </span>{" "}
-                saat kaldı
-              </p>
+                <span className="text-xs uppercase tracking-widest text-amber-200 font-medium">saat kaldı</span>
+              </div>
             )}
             {countdown?.past && (
               <p
                 className="mt-8 font-display text-2xl m-0"
                 style={{ color: goldLeaf }}
               >
-                Kınamız kutlu olsun.
+                Kınamız kutlu olsun. 🎉
               </p>
             )}
           </div>

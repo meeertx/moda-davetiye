@@ -2,6 +2,8 @@
 
 import { useCountdown, pad } from "../useCountdown";
 import OpeningGate from "../OpeningGate";
+import RsvpBlock from "../RsvpBlock";
+import { StarrySkyCanvas } from "../ThemeCanvases";
 import { ParentsLine } from "../Sections";
 import { EVENT_HEADINGS, type ThemeProps } from "@/types/invitation";
 
@@ -64,7 +66,9 @@ function calendarHref(content: {
   return `data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`;
 }
 
-export default function SozVakti({ content }: ThemeProps) {
+
+
+export default function SozVakti({ content, preview }: ThemeProps) {
   const countdown = useCountdown(content.eventAt);
 
   const fmt = (o: Intl.DateTimeFormatOptions) =>
@@ -83,9 +87,6 @@ export default function SozVakti({ content }: ThemeProps) {
         foreground: cream,
         accent: brass,
         onAccent: navy,
-        // Fildişi kâğıt, lacivert mum mührü. Lacivert zarf denendi ama
-        // lacivert zeminde okunmuyordu — kapı zemini koyu olduğu için
-        // kâğıdın açık olması şart.
         envelope: {
           paper: "#eae5d9",
           paperShade: "#dfd9ca",
@@ -98,74 +99,63 @@ export default function SozVakti({ content }: ThemeProps) {
       }}
       ornament={<Star size={14} />}
     >
-      {/* Tek ekran: sayfa kaydırılmaz */}
       <div
-        className="min-h-screen flex flex-col items-center justify-center text-center px-6 py-16 font-body relative overflow-hidden"
+        className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 py-16 font-body overflow-hidden"
         style={{ background: navy, color: cream }}
       >
-        <div
-          aria-hidden="true"
-          className="absolute inset-0"
-          style={{
-            background: `radial-gradient(90% 55% at 50% 18%, ${navyLift} 0%, transparent 70%)`,
-          }}
-        />
+        <StarrySkyCanvas />
 
-        <div className="relative w-full max-w-[560px]">
-          <div className="flex justify-center gap-3 mb-9">
-            <Star size={9} />
-            <Star size={13} />
-            <Star size={9} />
+        <div className="relative z-10 w-full max-w-[620px] p-8 sm:p-14 rounded-3xl bg-zinc-950/80 backdrop-blur-xl border border-amber-400/40 shadow-[0_0_80px_rgba(194,168,106,0.25)] flex flex-col items-center">
+          <div className="flex justify-center gap-4 mb-8">
+            <Star size={10} />
+            <Star size={16} />
+            <Star size={10} />
           </div>
 
           <p
-            className="text-[10.5px] tracking-[0.44em] uppercase m-0 mb-9"
+            className="text-[11px] tracking-[0.45em] uppercase m-0 mb-6 font-semibold"
             style={{ color: brass }}
           >
             {EVENT_HEADINGS[content.eventType]}
           </p>
 
-          <h1 className="font-display italic font-medium m-0 leading-[1] text-[clamp(2.6rem,11vw,4.8rem)]">
+          <h1 className="font-display italic font-medium m-0 leading-[1] text-[clamp(2.8rem,11vw,5.2rem)] text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-300 to-yellow-200 drop-shadow-[0_4px_15px_rgba(0,0,0,0.8)]">
             {content.brideName}
-            <span className="mx-3" style={{ color: brass }}>
+            <span className="mx-3 text-amber-400">
               &amp;
             </span>
             {content.groomName}
           </h1>
 
-          {/* Aileler — tek ekran tasarımında yer alan tek ek içerik.
-              Menü, program ve galeri bilinçli olarak yok: bu tema bir
-              "tarihi ayırın" kartı, tam davetiye değil. */}
-          <ParentsLine content={content} tone="dark" className="mt-9" />
+          <ParentsLine content={content} tone="dark" className="mt-8" />
 
-          {/* Tarih burada ana kahraman */}
           {fmt({ day: "numeric", month: "long", year: "numeric" }) && (
             <p
-              className="mt-11 font-display text-[clamp(1.6rem,6vw,2.4rem)] m-0"
+              className="mt-10 font-display text-[clamp(1.8rem,6vw,2.6rem)] m-0 font-semibold"
               style={{ color: brass }}
             >
               {fmt({ day: "numeric", month: "long", year: "numeric" })}
             </p>
           )}
           {content.venueName && (
-            <p className="mt-3 text-[13px] tracking-[0.16em] uppercase m-0 opacity-60">
+            <p className="mt-3 text-xs tracking-[0.2em] uppercase m-0 text-amber-200/80 font-medium">
               {content.venueName}
             </p>
           )}
 
           {countdown && !countdown.past && (
-            <div className="mt-12 flex justify-center gap-8">
+            <div className="mt-10 flex justify-center gap-6 sm:gap-8">
               {[
                 { v: countdown.days, l: "Gün" },
                 { v: countdown.hours, l: "Saat" },
                 { v: countdown.minutes, l: "Dakika" },
               ].map((u) => (
-                <div key={u.l}>
-                  <div className="font-display text-[clamp(1.7rem,6vw,2.2rem)] leading-none tabular-nums">
+                <div key={u.l} className="px-4 py-3 rounded-2xl bg-black/60 border border-amber-400/30">
+                  <div className="font-display text-[clamp(1.8rem,6vw,2.4rem)] leading-none tabular-nums text-amber-200">
                     {pad(u.v)}
                   </div>
                   <div
-                    className="text-[9.5px] tracking-[0.2em] uppercase mt-2.5"
+                    className="text-[9.5px] tracking-[0.22em] uppercase mt-2 font-semibold"
                     style={{ color: brass }}
                   >
                     {u.l}
@@ -175,13 +165,60 @@ export default function SozVakti({ content }: ThemeProps) {
             </div>
           )}
 
-          <div className="mt-14 flex flex-wrap gap-3 justify-center">
+          {/* HİKAYEMİZ */}
+          {content.story && (
+            <div className="mt-8 w-full p-6 sm:p-8 rounded-2xl bg-black/50 border border-amber-400/30 text-center">
+              <h2 className="text-xs tracking-[0.3em] uppercase text-amber-300 mb-4 font-semibold">Hikayemiz</h2>
+              <p className="font-display italic text-lg leading-relaxed text-amber-100/90 whitespace-pre-line m-0">
+                {content.story}
+              </p>
+            </div>
+          )}
+
+          {/* PROGRAM */}
+          {content.program.length > 0 && (
+            <div className="mt-8 w-full p-6 sm:p-8 rounded-2xl bg-black/50 border border-amber-400/30">
+              <h2 className="text-xs tracking-[0.3em] uppercase text-amber-300 mb-6 text-center font-semibold">Program</h2>
+              <div className="flex flex-col gap-4">
+                {content.program.map((p, i) => (
+                  <div key={`${p.time}-${i}`} className="flex justify-between items-center p-3 rounded-xl bg-amber-400/10 border border-amber-400/20">
+                    <span className="font-display text-lg font-bold text-amber-300">{p.time}</span>
+                    <span className="text-sm text-amber-100 font-medium">{p.title}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* FOTOĞRAFLAR */}
+          {content.photoUrls.length > 0 && (
+            <div className="mt-8 w-full p-6 sm:p-8 rounded-2xl bg-black/50 border border-amber-400/30">
+              <h2 className="text-xs tracking-[0.3em] uppercase text-amber-300 mb-6 text-center font-semibold">Fotoğraflar</h2>
+              <div className="grid grid-cols-2 gap-3">
+                {content.photoUrls.map((url, i) => (
+                  <div key={url} className="relative aspect-[4/5] rounded-xl overflow-hidden border border-amber-400/40">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={url} alt={`Fotoğraf ${i + 1}`} className="w-full h-full object-cover" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* RSVP */}
+          {content.rsvp.enabled && (
+            <div className="mt-8 w-full p-6 sm:p-8 rounded-2xl bg-black/50 border border-amber-400/30">
+              <h2 className="text-xs tracking-[0.3em] uppercase text-amber-300 mb-6 text-center font-semibold">Katılım Bildirimi</h2>
+              <RsvpBlock content={content} tone="dark" preview={preview} />
+            </div>
+          )}
+
+          <div className="mt-12 flex flex-wrap gap-4 justify-center">
             {ics && (
               <a
                 href={ics}
                 download={`${content.brideName}-${content.groomName}.ics`}
-                className="px-7 py-3.5 rounded-full text-[11px] tracking-[0.2em] uppercase transition-colors"
-                style={{ border: `1px solid ${brass}`, color: brass }}
+                className="px-8 py-3.5 rounded-full text-xs font-semibold tracking-[0.2em] uppercase transition-all duration-300 transform hover:scale-105 shadow-lg bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-black border border-amber-300"
               >
                 Takvime Ekle
               </a>
@@ -191,21 +228,16 @@ export default function SozVakti({ content }: ThemeProps) {
                 href={content.venueMapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-7 py-3.5 rounded-full text-[11px] tracking-[0.2em] uppercase transition-colors opacity-70 hover:opacity-100"
-                style={{ border: `1px solid ${cream}55`, color: cream }}
+                className="px-8 py-3.5 rounded-full text-xs font-semibold tracking-[0.2em] uppercase transition-all duration-300 hover:bg-white/10 border border-amber-400/40 text-amber-200"
               >
                 Haritada Aç
               </a>
             )}
           </div>
 
-          <p className="mt-14 text-[12px] tracking-[0.14em] m-0 opacity-45">
-            Ayrıntılı davetiyemiz yakında sizinle.
-          </p>
-
           {content.musicTitle && (
             <p
-              className="mt-4 text-[10.5px] tracking-[0.16em] uppercase m-0 opacity-55"
+              className="mt-6 text-[10.5px] tracking-[0.16em] uppercase m-0 opacity-55"
               style={{ color: brass }}
             >
               ♪ {content.musicTitle}

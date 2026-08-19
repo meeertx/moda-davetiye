@@ -3,6 +3,7 @@
 import RsvpBlock from "../RsvpBlock";
 import GuestPhotoBlock from "../GuestPhotoBlock";
 import OpeningGate from "../OpeningGate";
+import { GoldDustCanvas } from "../ThemeCanvases";
 import { BotanicalDivider, BotanicalFrame, BotanicalSprig } from "../Botanical";
 import {
   CountdownBoxes,
@@ -96,6 +97,8 @@ function Band({ children }: { children: React.ReactNode }) {
   );
 }
 
+
+
 export default function BelleEpoque({ content, preview }: ThemeProps) {
   const dateLabel = content.eventAt
     ? new Intl.DateTimeFormat("tr-TR", {
@@ -123,9 +126,6 @@ export default function BelleEpoque({ content, preview }: ThemeProps) {
         foreground: paper,
         accent: gold,
         onAccent: ink,
-        // Zarf koyu değil FİLDİŞİ: koyu ipek zemininde koyu bir zarf
-        // silik bir dikdörtgene dönüşüyordu. Açık kâğıt hem gerçek bir
-        // davetiye zarfının rengi hem de mum mührünü öne çıkarıyor.
         envelope: {
           paper: "#ece2d1",
           paperShade: "#e3d7c2",
@@ -146,10 +146,12 @@ export default function BelleEpoque({ content, preview }: ThemeProps) {
             background: ink,
           } as React.CSSProperties
         }
-        className="min-h-screen text-[#efe7dc] font-body selection:bg-[var(--gold)] selection:text-[var(--ink)]"
+        className="relative min-h-screen text-[#efe7dc] font-body selection:bg-[var(--gold)] selection:text-[var(--ink)] overflow-hidden"
       >
+        <GoldDustCanvas />
+
         {/* ================= AÇILIŞ ================= */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 py-24 overflow-hidden">
+        <section className="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-6 py-24 overflow-hidden">
           {/* İpek dokusu — çok düşük kontrastlı diyagonal tarama */}
           <div
             aria-hidden="true"
@@ -169,63 +171,59 @@ export default function BelleEpoque({ content, preview }: ThemeProps) {
             }}
           />
 
-          {/* Botanik çerçeve içeriği SARAR — ekran kenarına değil metnin
-              etrafına oturur, yoksa geniş ekranda dört ayrı süs gibi durur */}
-          <div className="relative w-full max-w-[820px] px-4 sm:px-14 py-10 sm:py-16">
-            <BotanicalFrame className="text-[var(--gold)]" opacity={0.42} />
+          {/* Physical Gold-Bordered Silk Plaque Card */}
+          <div className="relative w-full max-w-[780px] px-6 sm:px-16 py-12 sm:py-20 rounded-3xl border-2 border-amber-400/70 bg-gradient-to-b from-zinc-950/90 via-black/95 to-zinc-950/90 shadow-[0_20px_60px_rgba(0,0,0,0.9),0_0_50px_rgba(200,162,76,0.25)] backdrop-blur-xl">
+            <BotanicalFrame className="text-[var(--gold)]" opacity={0.5} />
 
-            {/* İçerik `relative`: konumlandırılmış çerçeve aksi hâlde
-                metnin üzerine boyanır */}
-            <div className="relative">
-            <p
-              className="text-[11px] sm:text-[12px] tracking-[0.4em] uppercase text-[var(--gold)] m-0 mb-10"
-              style={{ animation: "fadeUp 1s ease 0.05s both" }}
-            >
-              {EVENT_HEADINGS[content.eventType]}
-            </p>
-
-            <h1
-              className="font-script font-normal m-0 leading-[1.02]"
-              style={{ animation: "fadeUp 1.1s ease 0.2s both" }}
-            >
-              <span className="block text-[clamp(3.2rem,15vw,7rem)]">
-                {content.brideName}
-              </span>
-              <span className="block text-[clamp(1.5rem,5vw,2.2rem)] text-[var(--gold)] my-1 sm:my-2">
-                &amp;
-              </span>
-              <span className="block text-[clamp(3.2rem,15vw,7rem)]">
-                {content.groomName}
-              </span>
-            </h1>
-
-            <Rule className="mt-11 mb-9" />
-
-            <ParentsLine
-              content={content}
-              tone="dark"
-              className="mb-9"
-            />
-
-            {dateLabel && (
+            <div className="relative z-10">
               <p
-                className="text-[15px] sm:text-base tracking-[0.16em] uppercase m-0 text-[#efe7dc]/85"
-                style={{ animation: "fadeUp 1.1s ease 0.45s both" }}
+                className="text-xs tracking-[0.45em] uppercase text-[var(--gold)] m-0 mb-8 font-medium"
+                style={{ animation: "fadeUp 1s ease 0.05s both" }}
               >
-                {dateLabel}
-                {timeLabel && <span className="mx-3 text-[var(--gold)]">·</span>}
-                {timeLabel}
+                ✨ {EVENT_HEADINGS[content.eventType]} ✨
               </p>
-            )}
 
-            {content.venueName && (
-              <p
-                className="text-[13px] tracking-[0.1em] uppercase m-0 mt-4 text-[#efe7dc]/55"
-                style={{ animation: "fadeUp 1.1s ease 0.55s both" }}
+              <h1
+                className="font-script font-normal m-0 leading-[1.02] text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-300 to-yellow-200 drop-shadow-[0_4px_15px_rgba(0,0,0,0.9)]"
+                style={{ animation: "fadeUp 1.1s ease 0.2s both" }}
               >
-                {content.venueName}
-              </p>
-            )}
+                <span className="block text-[clamp(3.5rem,15vw,7rem)]">
+                  {content.brideName}
+                </span>
+                <span className="block text-[clamp(1.5rem,5vw,2.2rem)] text-[var(--gold)] my-2">
+                  &amp;
+                </span>
+                <span className="block text-[clamp(3.5rem,15vw,7rem)]">
+                  {content.groomName}
+                </span>
+              </h1>
+
+              <Rule className="mt-10 mb-8" />
+
+              <ParentsLine
+                content={content}
+                tone="dark"
+                className="mb-8"
+              />
+
+              {dateLabel && (
+                <p
+                  className="text-base sm:text-lg tracking-[0.2em] uppercase m-0 text-amber-100/90 font-medium"
+                  style={{ animation: "fadeUp 1.1s ease 0.45s both" }}
+                >
+                  🗓️ {dateLabel}
+                  {timeLabel && <span className="mx-3 text-[var(--gold)]">· ⏰ {timeLabel}</span>}
+                </p>
+              )}
+
+              {content.venueName && (
+                <p
+                  className="text-sm tracking-[0.14em] uppercase m-0 mt-4 text-amber-200/70 font-medium"
+                  style={{ animation: "fadeUp 1.1s ease 0.55s both" }}
+                >
+                  📍 {content.venueName}
+                </p>
+              )}
             </div>
           </div>
         </section>

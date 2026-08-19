@@ -118,13 +118,6 @@ export default async function AdminKullanicilarPage() {
           ))
         )}
       </div>
-
-      <div className="glass-luxury p-4 rounded-xl border border-gold/20 mt-6 text-xs text-muted leading-relaxed font-light flex flex-col gap-1">
-        <span className="font-semibold text-ink">💡 Supabase E-posta Senkronizasyonu Bilgisi:</span>
-        <span>
-          Supabase SQL Editor ekranına gidip projenizdeki <code>supabase/migrations/20260820000000_add_email_to_profiles.sql</code> kodunu bir defa çalıştırarak kayıtlı tüm kullanıcıların e-posta adreslerini anında bu tabloya senkronize edebilirsiniz.
-        </span>
-      </div>
     </AdminShell>
   );
 }

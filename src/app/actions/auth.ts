@@ -144,3 +144,22 @@ export async function resetPasswordAction(
   if (error) return { error: translateAuthError(error.message) };
   return { sent: true };
 }
+
+export async function deleteAccountAction(): Promise<ActionState> {
+  if (!isSupabaseConfigured) return { error: NOT_CONFIGURED };
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return { error: "Oturum açmış bir kullanıcı bulunamadı." };
+
+  // Kullanıcının profilini sil (foreign key CASCADE ile ilişkili siparişler silinir)
+  const { error } = await supabase.from("profiles").delete().eq("id", user.id);
+  if (error) return { error: translateAuthError(error.message) };
+
+  await supabase.auth.signOut();
+  revalidatePath("/", "layout");
+  redirect("/giris");
+}

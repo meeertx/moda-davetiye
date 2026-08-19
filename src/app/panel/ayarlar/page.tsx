@@ -3,10 +3,10 @@ import PanelShell from "@/components/panel/PanelShell";
 import AccountForm from "@/components/panel/AccountForm";
 import EmailForm from "@/components/panel/EmailForm";
 import PasswordForm from "@/components/panel/PasswordForm";
+import DeleteAccountForm from "@/components/panel/DeleteAccountForm";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { formatDate } from "@/lib/orders";
-import { BRAND } from "@/lib/brand";
 
 export const metadata: Metadata = { title: "Hesap Bilgilerim" };
 
@@ -81,23 +81,15 @@ export default async function PanelAyarlarPage() {
         <section className={card}>
           <h2 className={sectionTitle}>Bildirim Tercihleri</h2>
           <p className="text-xs text-muted leading-relaxed font-light m-0">
-            Sipariş durumunuz değiştiğinde ve davetiyeniz hazır olduğunda
-            e-posta ile bilgilendirilirsiniz. İletişim tercihleriniz için{" "}
-            <a href={`mailto:${BRAND.email}`} className="text-gold font-medium hover:underline">{BRAND.email}</a> adresine yazabilirsiniz.
+            Tüm sipariş güncellemesi, davetiye durumu değişikliği ve katılım (RSVP) bildirimleriniz otomatik olarak kayıtlı e-posta adresinize (<strong>{userEmail || "eposta adresiniz"}</strong>) e-posta yoluyla anlık iletilmektedir.
           </p>
         </section>
 
-        <section className="glass-luxury rounded-2xl p-7 border border-danger-fg/30 shadow-xs">
-          <h2 className="font-display font-medium text-2xl m-0 mb-1 text-danger-fg tracking-tight">
+        <section className="glass-luxury rounded-2xl p-7 border border-red-500/30 shadow-xs">
+          <h2 className="font-display font-medium text-2xl m-0 mb-1 text-red-700 tracking-tight">
             Hesabı Sil
           </h2>
-          <p className="text-xs text-muted leading-relaxed font-light m-0">
-            Hesabınızı ve tüm sipariş kayıtlarınızı kalıcı olarak silmek için{" "}
-            <a href={`mailto:${BRAND.email}?subject=Hesap%20silme%20talebi`} className="text-danger-fg font-medium hover:underline">
-              {BRAND.email}
-            </a>{" "}
-            adresine yazabilirsiniz. Talebiniz 30 gün içinde işlenir. Bu işlem geri alınamaz.
-          </p>
+          <DeleteAccountForm />
         </section>
       </div>
     </PanelShell>

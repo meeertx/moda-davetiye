@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { ORDER_STATUS } from "@/lib/orders";
 import Button from "@/components/ui/Button";
 import FilterPill from "@/components/ui/FilterPill";
@@ -25,6 +25,7 @@ export default function OrderFilters({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [q, setQ] = useState(initialQuery);
+  const [isPending, startTransition] = useTransition();
 
   const push = (next: Record<string, string>) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -32,8 +33,20 @@ export default function OrderFilters({
       if (value && value !== "all") params.set(key, value);
       else params.delete(key);
     }
-    router.push(`/admin/siparisler?${params.toString()}`);
+    startTransition(() => {
+      router.push(`/admin/siparisler?${params.toString()}`);
+    });
   };
+
+  // Debounced auto-search as user types
+  useEffect(() => {
+    if (q === initialQuery) return;
+    const timer = setTimeout(() => {
+      push({ q });
+    }, 350);
+
+    return () => clearTimeout(timer);
+  }, [q]);
 
   return (
     <div className="glass-luxury p-5 rounded-2xl border border-gold/25 shadow-sm mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
@@ -56,17 +69,43 @@ export default function OrderFilters({
           e.preventDefault();
           push({ q });
         }}
-        className="flex items-center gap-2 w-full md:w-auto"
+        className="flex items-center gap-2 w-full md:w-auto relative"
       >
-        <input
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Sipariş No, Müşteri veya Çift adı ara…"
-          aria-label="Sipariş ara"
-          className={inputClass("panel", "w-full md:w-[280px] py-2.5 px-4 text-xs rounded-xl bg-paper/80 border-gold/30 focus:border-gold")}
-        />
-        <Button type="submit" variant="gold" size="sm" shape="pill" className="apple-press px-5 font-semibold">
-          Ara
+        <div className="relative w-full md:w-[320px]">
+          <input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Sipariş No, Müşteri veya Çift adı ara…"
+            aria-label="Sipariş ara"
+            className={inputClass(
+              "panel",
+              "w-full py-2.5 pl-4 pr-9 text-xs rounded-xl bg-white/90 border-gold/30 focus:border-gold shadow-xs font-medium text-ink",
+            )}
+          />
+          {q && (
+            <button
+              type="button"
+              onClick={() => {
+                setQ("");
+                push({ q: "" });
+              }}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-gold/20 text-gold hover:bg-gold hover:text-ink text-[10px] font-bold flex items-center justify-center transition-colors"
+              title="Aramayı Temizle"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+
+        <Button
+          type="submit"
+          variant="gold"
+          size="sm"
+          shape="pill"
+          disabled={isPending}
+          className="apple-press px-5 font-semibold text-xs py-2.5 shrink-0"
+        >
+          {isPending ? "Aranıyor…" : "ARA"}
         </Button>
       </form>
     </div>

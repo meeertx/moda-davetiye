@@ -2,7 +2,7 @@
 
 /**
  * Liste filtrelerindeki hap biçimli seçici.
- * Tema galerisi ve admin sipariş listesi aynı bileşeni kullanır.
+ * 24K Altın Yaldız teması ile uyumlu lüks aktif buton görünümü.
  */
 export default function FilterPill({
   active,
@@ -18,10 +18,10 @@ export default function FilterPill({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`cursor-pointer px-[18px] py-[9px] border rounded-[20px] text-[13px] transition-colors duration-150 ${
+      className={`cursor-pointer px-5 py-2 rounded-full text-xs transition-all duration-200 apple-press font-semibold ${
         active
-          ? "bg-ink text-cream border-ink"
-          : "bg-transparent text-slate border-line hover:border-ink hover:text-ink"
+          ? "bg-gradient-to-r from-[#D4AF37] via-[#F5E6B3] to-[#C09622] text-[#16161D] border border-gold font-bold shadow-md shadow-gold/25 scale-[1.02]"
+          : "bg-white/80 text-ink/80 border border-gold/30 hover:border-gold hover:text-gold hover:bg-gold/10"
       }`}
     >
       {children}

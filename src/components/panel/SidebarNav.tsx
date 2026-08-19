@@ -45,31 +45,35 @@ export default function SidebarNav({
   return (
     <aside
       className="
-        bg-rail border-line-panel shrink-0
+        bg-cream/90 backdrop-blur-2xl border-line-panel shrink-0
         border-b px-5 py-4
-        md:w-60 md:border-b-0 md:border-r md:px-5 md:py-7
-        md:flex md:flex-col
+        md:w-64 md:border-b-0 md:border-r md:border-gold/20 md:px-6 md:py-8
+        md:flex md:flex-col shadow-sm
       "
     >
       <div className="flex items-center justify-between gap-4 md:block">
         <div className="md:px-2">
-          <Link href="/" className="text-ink">
-            <Logo size={22} />
+          <Link href="/" className="text-ink inline-block group transition-transform duration-200 hover:scale-105">
+            <Logo size={23} />
           </Link>
-          {badge && (
-            <div className="mt-1 text-[11px] tracking-[0.16em] uppercase text-gold">
-              {badge}
+          {badge ? (
+            <div className="mt-1.5 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gold/15 border border-gold/30 text-[10px] tracking-[0.18em] uppercase text-gold font-semibold shadow-xs">
+              ★ {badge}
+            </div>
+          ) : (
+            <div className="mt-1.5 text-[10.5px] tracking-[0.14em] uppercase text-gold font-medium">
+              MÜŞTERİ PANELİ
             </div>
           )}
         </div>
 
         {/* Dar ekranda hesap bilgisi ve çıkış üst satırda durur */}
         <div className="text-right md:hidden">
-          {fullName && <div className="text-xs text-ink">{fullName}</div>}
+          {fullName && <div className="text-xs font-semibold text-ink">{fullName}</div>}
           <form action={signOutAction}>
             <button
               type="submit"
-              className="cursor-pointer bg-transparent border-0 p-0 text-xs text-muted hover:text-ink underline underline-offset-2"
+              className="cursor-pointer bg-transparent border-0 p-0 text-xs text-gold hover:underline"
             >
               Çıkış yap
             </button>
@@ -79,8 +83,8 @@ export default function SidebarNav({
 
       <nav
         className="
-          flex gap-1 mt-4 overflow-x-auto
-          md:flex-col md:mt-8 md:overflow-visible
+          flex gap-1.5 mt-5 overflow-x-auto
+          md:flex-col md:mt-10 md:overflow-visible
         "
       >
         {items.map((item) => {
@@ -90,10 +94,10 @@ export default function SidebarNav({
               key={item.href}
               href={item.href}
               aria-current={active ? "page" : undefined}
-              className={`whitespace-nowrap px-3 py-[11px] rounded-md text-sm transition-colors duration-150 ${
+              className={`whitespace-nowrap px-4 py-3 rounded-xl text-xs tracking-wide transition-all duration-200 apple-press ${
                 active
-                  ? "bg-ink text-cream"
-                  : "text-slate hover:bg-rail-hover hover:text-ink"
+                  ? "bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C09622] text-ink-deep font-bold shadow-md border border-gold/50"
+                  : "text-slate hover:bg-gold/15 hover:text-ink font-medium"
               }`}
             >
               {item.label}
@@ -103,19 +107,19 @@ export default function SidebarNav({
       </nav>
 
       {/* Geniş ekranda hesap bilgisi menünün altına yerleşir */}
-      <div className="hidden md:block mt-auto pt-8 px-2">
+      <div className="hidden md:block mt-auto pt-8 px-2 border-t border-gold/15">
         {(fullName || email) && (
           <div className="text-xs text-muted leading-[1.6] mb-3 break-words">
-            {fullName && <div className="text-ink">{fullName}</div>}
-            {email}
+            {fullName && <div className="text-ink font-semibold text-sm mb-0.5">{fullName}</div>}
+            <div className="text-[11.5px] text-muted font-light">{email}</div>
           </div>
         )}
         <form action={signOutAction}>
           <button
             type="submit"
-            className="cursor-pointer bg-transparent border-0 p-0 text-xs text-muted hover:text-ink underline underline-offset-2 transition-colors duration-150"
+            className="cursor-pointer bg-transparent border-0 p-0 text-xs text-gold hover:text-gold-light font-medium underline underline-offset-4 transition-colors duration-150 apple-press"
           >
-            Çıkış yap
+            Güvenli Çıkış yap →
           </button>
         </form>
       </div>

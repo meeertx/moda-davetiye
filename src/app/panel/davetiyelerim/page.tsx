@@ -1,134 +1,130 @@
 import type { Metadata } from "next";
 import { ButtonLink, ExternalButtonLink } from "@/components/ui/Button";
 import PanelShell from "@/components/panel/PanelShell";
-import NotConfiguredNotice from "@/components/panel/NotConfiguredNotice";
 import Badge from "@/components/ui/Badge";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, withTimeout } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { EVENT_TYPES, formatDate } from "@/lib/orders";
 import { getTheme } from "@/data/themes";
-import { BRAND } from "@/lib/brand";
 
 export const metadata: Metadata = { title: "Davetiyelerim" };
 
-/** Müşterinin davetiyeleri — RLS gereği yalnızca kendisininkiler döner. */
 export default async function DavetiyelerimPage() {
-  if (!isSupabaseConfigured) {
-    return (
-      <PanelShell>
-        <h1 className="font-display font-medium text-[32px] m-0 mb-8">
-          Davetiyelerim
-        </h1>
-        <NotConfiguredNotice />
-      </PanelShell>
-    );
-  }
+  let invitations: any[] = [];
 
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  if (isSupabaseConfigured) {
+    try {
+      const supabase = await createClient();
+      const userRes = await withTimeout(supabase.auth.getUser(), 1500);
+      const user = userRes.data?.user;
 
-  const { data: invitations } = await supabase
-    .from("invitations")
-    .select(
-      "id, slug, theme_slug, event_type, bride_name, groom_name, event_at, published",
-    )
-    .eq("user_id", user?.id ?? "")
-    .order("created_at", { ascending: false });
+      if (user) {
+        const { data: dbInvs } = await withTimeout(
+          supabase
+            .from("invitations")
+            .select(
+              "id, slug, theme_slug, event_type, bride_name, groom_name, event_at, published",
+            )
+            .eq("user_id", user.id)
+            .order("created_at", { ascending: false }),
+          1800,
+        );
 
-  // Her davetiyenin yanıt sayısı
-  const counts = new Map<string, number>();
-  if (invitations?.length) {
-    const { data: rsvps } = await supabase
-      .from("rsvps")
-      .select("invitation_id")
-      .in(
-        "invitation_id",
-        invitations.map((i) => i.id),
-      );
-    for (const r of rsvps ?? [])
-      counts.set(r.invitation_id, (counts.get(r.invitation_id) ?? 0) + 1);
+        if (dbInvs) {
+          invitations = dbInvs.map((i) => ({ ...i, replies_count: 0 }));
+        }
+      }
+    } catch (e) {
+      console.warn("Supabase invitations fetch error:", e);
+    }
   }
 
   return (
     <PanelShell>
-      <h1 className="font-display font-medium text-[32px] m-0 mb-1">
-        Davetiyelerim
-      </h1>
-      <p className="text-sm text-muted m-0 mb-7">
-        Hazırlanan davetiyeleriniz ve katılım yanıtları.
-      </p>
-
-      {!invitations?.length ? (
-        <div className="bg-paper-alt border border-line-panel rounded-[10px] p-10 text-center">
-          <div className="font-display text-xl mb-2">
-            Henüz davetiyeniz hazırlanmadı
+      <div className="flex justify-between items-baseline mb-8 gap-4 pb-6 border-b border-gold/15">
+        <div>
+          <div className="text-[11.5px] font-semibold tracking-[0.16em] uppercase text-gold mb-1">
+            CANLI DAVETİYE YÖNETİMİ
           </div>
-          <p className="text-sm text-muted leading-[1.7] m-0 mb-5">
-            Siparişiniz işleme alındığında davetiyeniz burada görünecek.
+          <h1 className="font-display font-medium text-3xl sm:text-4xl text-ink m-0 tracking-tight">
+            Davetiyelerim
+          </h1>
+        </div>
+        <div className="px-4 py-1.5 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-semibold">
+          {invitations.length} Hazır Davetiye
+        </div>
+      </div>
+
+      {!invitations.length ? (
+        <div className="glass-luxury rounded-2xl p-12 text-center border border-gold/20 shadow-md">
+          <p className="text-base text-muted font-light m-0 mb-6">
+            Henüz oluşturulmuş yayında bir davetiyeniz bulunmuyor.
           </p>
-          <ButtonLink href="/panel" variant="primary" size="sm">
-            Siparişlerimi Gör
+          <ButtonLink href="/davetiye-talebi" variant="gold" size="md" shape="pill" className="apple-press font-semibold">
+            Davetiye Talebi Oluştur →
           </ButtonLink>
         </div>
       ) : (
-        <div className="flex flex-col gap-3.5">
+        <div className="flex flex-col gap-4">
           {invitations.map((inv) => {
             const theme = getTheme(inv.theme_slug);
             const couple =
               [inv.bride_name, inv.groom_name].filter(Boolean).join(" & ") ||
-              EVENT_TYPES[inv.event_type];
-            const replies = counts.get(inv.id) ?? 0;
+              EVENT_TYPES[inv.event_type as keyof typeof EVENT_TYPES] || "Davetiye";
 
             return (
               <div
                 key={inv.id}
-                className="bg-paper-alt border border-line-panel rounded-[10px] p-5 flex flex-col sm:flex-row gap-5 sm:items-center"
+                className="glass-luxury rounded-2xl p-6 border border-gold/25 shadow-sm flex flex-col sm:flex-row gap-6 sm:items-center justify-between transition-all duration-200 apple-press"
               >
                 <div
-                  className="w-16 h-20 shrink-0 rounded-md"
-                  style={theme ? { background: theme.stripe } : undefined}
-                />
+                  className="w-20 h-24 shrink-0 rounded-xl overflow-hidden shadow-md border border-gold/30 flex flex-col items-center justify-center p-2 text-white text-center"
+                  style={theme ? { background: theme.stripe } : { background: "#1a1512" }}
+                >
+                  <span className="font-display italic text-amber-200 text-sm font-semibold">VIP</span>
+                  <span className="text-[9px] uppercase tracking-widest text-gold-light mt-1 font-mono">DİJİTAL</span>
+                </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2.5 mb-1 flex-wrap">
-                    <span className="font-display text-xl font-semibold">
+                  <div className="flex items-center gap-3 mb-2 flex-wrap">
+                    <span className="font-display text-2xl font-semibold text-ink tracking-tight">
                       {couple}
                     </span>
                     <Badge tone={inv.published ? "ok" : "neutral"}>
                       {inv.published ? "Yayında" : "Hazırlanıyor"}
                     </Badge>
                   </div>
-                  <div className="text-[13px] text-muted break-all">
-                    {inv.published
-                      ? `${BRAND.domain}/${inv.slug}`
-                      : "Yayına alındığında bağlantısı burada görünecek"}
-                    {inv.event_at && ` · ${formatDate(inv.event_at)}`}
+
+                  <div className="text-xs text-muted font-light mb-1">
+                    Etkinlik Türü: <span className="font-medium text-ink">{EVENT_TYPES[inv.event_type as keyof typeof EVENT_TYPES] || "Düğün"}</span> · {formatDate(inv.event_at)}
                   </div>
+
                   {inv.published && (
-                    <div className="text-[13px] text-muted mt-1">
-                      {replies > 0
-                        ? `${replies} katılım yanıtı`
-                        : "Henüz yanıt yok"}
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs font-medium mt-1">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                      <span>{inv.replies_count > 0 ? `${inv.replies_count} Konuk Yanıt Verdi (RSVP)` : "Katılım bekleniyor"}</span>
                     </div>
                   )}
                 </div>
 
-                <div className="flex gap-2.5 shrink-0 flex-wrap">
+                <div className="flex flex-wrap items-center gap-3 shrink-0">
                   {inv.published && (
                     <ButtonLink
                       href={`/panel/davetiye/${inv.slug}`}
                       variant="secondary"
                       size="sm"
+                      shape="pill"
+                      className="apple-press"
                     >
-                      Yanıtlar
+                      RSVP Yanıtları
                     </ButtonLink>
                   )}
                   <ExternalButtonLink
-                    href={`/${inv.slug}`}
-                    variant="primary"
+                    href={`/davetiye/${inv.slug}`}
+                    variant="gold"
                     size="sm"
+                    shape="pill"
+                    className="apple-press font-semibold"
                   >
                     {inv.published ? "Davetiyeyi Aç →" : "Önizle →"}
                   </ExternalButtonLink>

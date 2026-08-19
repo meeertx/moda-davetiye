@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { signInAction, type ActionState } from "@/app/actions/auth";
 import { authInput } from "./AuthShell";
 import FormMessage from "@/components/ui/FormMessage";
@@ -12,18 +12,32 @@ export default function LoginForm({ next }: { next?: string }) {
     signInAction,
     {},
   );
+  const [submitted, setSubmitted] = useState(false);
 
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form
+      action={(formData) => {
+        setSubmitted(true);
+        formAction(formData);
+      }}
+      className="flex flex-col gap-4"
+    >
       {next && <input type="hidden" name="next" value={next} />}
       {state.error && <FormMessage>{state.error}</FormMessage>}
+
+      {submitted && !state.error && (
+        <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs font-semibold flex items-center justify-center gap-2 animate-pulse">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+          <span>✨ Giriş Başarılı! Panelinize aktarılıyorsunuz…</span>
+        </div>
+      )}
 
       <div>
         <label
           htmlFor="email"
-          className="block text-xs tracking-[0.03em] mb-1.5"
+          className="block text-xs font-medium tracking-[0.03em] mb-1.5 text-ink"
         >
-          E-posta
+          E-posta Adresi
         </label>
         <input
           id="email"
@@ -37,12 +51,12 @@ export default function LoginForm({ next }: { next?: string }) {
       </div>
 
       <div>
-        <div className="flex justify-between mb-1.5">
-          <label htmlFor="password" className="text-xs tracking-[0.03em]">
+        <div className="flex justify-between items-center mb-1.5">
+          <label htmlFor="password" className="text-xs font-medium tracking-[0.03em] text-ink">
             Şifre
           </label>
-          <Link href="/sifremi-unuttum" className="text-xs">
-            Şifremi Unuttum
+          <Link href="/sifremi-unuttum" className="text-xs text-gold hover:underline font-medium">
+            Şifremi Unuttum?
           </Link>
         </div>
         <input
@@ -57,13 +71,13 @@ export default function LoginForm({ next }: { next?: string }) {
       </div>
 
       <SubmitButton
-        pendingLabel="Giriş yapılıyor…"
-        variant="primary"
-        shape="sharp"
+        pendingLabel="Giriş Yapılıyor &amp; Yönlendiriliyor…"
+        variant="gold"
+        shape="pill"
         block
-        className="mt-2"
+        className="mt-2 py-3.5 font-semibold tracking-wider text-xs apple-press shadow-md"
       >
-        Giriş Yap
+        Giriş Yap ve Devam Et →
       </SubmitButton>
     </form>
   );

@@ -33,19 +33,30 @@ export async function createClient() {
   });
 }
 
-/** Giriş yapmış kullanıcı ve profili; oturum yoksa null. */
+/** Zaman aşımı koruması — Supabase ağ sorgusu yavaşlarsa sayfayı kilitlemez. */
+export async function withTimeout<T>(promise: PromiseLike<T>, ms = 1800): Promise<T> {
+  let timeoutId: NodeJS.Timeout;
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error("Supabase request timeout")), ms);
+  });
+  return Promise.race([Promise.resolve(promise), timeoutPromise]).finally(() => clearTimeout(timeoutId));
+}
+
+/** Giriş yapmış kullanıcı ve profili; oturum yoksa veya yavaşsa null. */
 export async function getCurrentUser() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
+  try {
+    const supabase = await createClient();
+    const res = await withTimeout(supabase.auth.getUser(), 1500);
+    const user = res.data?.user;
+    if (!user) return null;
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
+    const profileRes = await withTimeout(
+      supabase.from("profiles").select("*").eq("id", user.id).single(),
+      1500,
+    );
 
-  return { user, profile };
+    return { user, profile: profileRes.data };
+  } catch {
+    return null;
+  }
 }

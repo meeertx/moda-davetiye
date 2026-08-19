@@ -13,7 +13,8 @@ export type ButtonVariant =
   | "secondary" // çerçeveli — ikincil eylem
   | "ghost" // zeminsiz — üçüncül / satır içi eylem
   | "danger" // yıkıcı eylem
-  | "on-dark"; // koyu yüzey üzerinde ana eylem
+  | "on-dark" // koyu yüzey üzerinde ana eylem
+  | "gold"; // lüks altın dolgulu eylem
 
 export type ButtonSize = "sm" | "md" | "lg";
 
@@ -22,36 +23,39 @@ export type ButtonSize = "sm" | "md" | "lg";
  * pazarlama sayfaları keskin (2px, davetiye kartı hissi),
  * panel/admin yumuşak (6px, arayüz hissi). Prototipteki ayrım korunuyor.
  */
-export type ButtonShape = "sharp" | "soft";
+export type ButtonShape = "sharp" | "soft" | "pill";
 
 const VARIANTS: Record<ButtonVariant, string> = {
   primary:
-    "bg-ink text-cream border border-ink hover:bg-ink-lift hover:border-ink-lift hover:text-cream",
+    "bg-gradient-to-r from-[oklch(68%_0.15_85)] via-[oklch(78%_0.14_85)] to-[oklch(64%_0.14_85)] text-ink-deep font-semibold border border-gold/45 shadow-md hover:shadow-xl hover:brightness-105 hover:-translate-y-0.5 transition-all duration-300",
   secondary:
-    "bg-transparent text-ink border border-ink hover:bg-ink hover:text-cream",
+    "bg-white text-ink font-semibold border border-gold/45 shadow-xs hover:bg-ink hover:text-white hover:border-ink hover:shadow-md hover:-translate-y-0.5 transition-all duration-300",
   ghost:
-    "bg-transparent text-ink border border-transparent hover:bg-rail-hover hover:text-ink",
+    "bg-transparent text-ink font-semibold border border-transparent hover:bg-gold/15 hover:text-gold transition-colors duration-200",
   danger:
-    "bg-transparent text-danger-fg border border-danger-fg hover:bg-danger-bg hover:text-danger-fg",
+    "bg-white text-danger-fg font-semibold border border-danger-fg/60 hover:bg-danger-bg hover:text-danger-fg transition-colors duration-200",
   "on-dark":
-    "bg-snow text-ink border border-snow hover:bg-cream hover:border-cream hover:text-ink",
+    "bg-snow text-ink font-semibold border border-gold/40 shadow-sm hover:bg-white hover:border-gold/60 hover:text-ink hover:shadow-md hover:-translate-y-0.5 transition-all duration-300",
+  gold:
+    "bg-gradient-to-r from-[#D4AF37] via-[#F5E6B3] to-[#C09622] text-ink-deep font-bold border border-gold/50 shadow-[0_10px_25px_-5px_rgba(212,175,55,0.4)] hover:shadow-[0_14px_32px_-5px_rgba(212,175,55,0.6)] hover:brightness-105 hover:-translate-y-0.5 transition-all duration-300 tracking-wider uppercase text-xs",
 };
 
 const SIZES: Record<ButtonSize, string> = {
-  sm: "text-[13px] px-4 py-2.5",
-  md: "text-sm px-6 py-3",
-  lg: "text-sm px-8 py-4",
+  sm: "text-[12.5px] tracking-[0.04em] px-4 py-2",
+  md: "text-sm tracking-[0.04em] px-6.5 py-3",
+  lg: "text-[14.5px] tracking-[0.05em] px-8.5 py-4",
 };
 
 const SHAPES: Record<ButtonShape, string> = {
   sharp: "rounded-[2px]",
   soft: "rounded-md",
+  pill: "rounded-full",
 };
 
 const BASE =
   "inline-flex items-center justify-center gap-2 text-center whitespace-nowrap cursor-pointer " +
-  "transition-[background-color,border-color,color,transform] duration-200 " +
-  "active:translate-y-px disabled:opacity-55 disabled:cursor-not-allowed disabled:active:translate-y-0";
+  "transition-all duration-200 ease-out " +
+  "active:scale-[0.97] active:opacity-90 disabled:opacity-55 disabled:cursor-not-allowed disabled:active:scale-100";
 
 export function buttonClass({
   variant = "primary",

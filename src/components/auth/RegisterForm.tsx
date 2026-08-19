@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { signUpAction, type ActionState } from "@/app/actions/auth";
 import { authInput } from "./AuthShell";
 import FormMessage from "@/components/ui/FormMessage";
@@ -12,14 +12,28 @@ export default function RegisterForm({ next }: { next?: string }) {
     signUpAction,
     {},
   );
+  const [submitted, setSubmitted] = useState(false);
 
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form
+      action={(formData) => {
+        setSubmitted(true);
+        formAction(formData);
+      }}
+      className="flex flex-col gap-4"
+    >
       {next && <input type="hidden" name="next" value={next} />}
       {state.error && <FormMessage>{state.error}</FormMessage>}
 
+      {submitted && !state.error && (
+        <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs font-semibold flex items-center justify-center gap-2 animate-pulse">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+          <span>🎉 Hesabınız oluşturuldu! Müşteri panelinize yönlendiriliyorsunuz…</span>
+        </div>
+      )}
+
       <div>
-        <label htmlFor="full_name" className="block text-xs mb-1.5">
+        <label htmlFor="full_name" className="block text-xs font-medium mb-1.5 text-ink">
           Ad Soyad
         </label>
         <input
@@ -33,8 +47,8 @@ export default function RegisterForm({ next }: { next?: string }) {
       </div>
 
       <div>
-        <label htmlFor="email" className="block text-xs mb-1.5">
-          E-posta
+        <label htmlFor="email" className="block text-xs font-medium mb-1.5 text-ink">
+          E-posta Adresi
         </label>
         <input
           id="email"
@@ -48,8 +62,8 @@ export default function RegisterForm({ next }: { next?: string }) {
       </div>
 
       <div>
-        <label htmlFor="phone" className="block text-xs mb-1.5">
-          Telefon <span className="text-muted">(opsiyonel)</span>
+        <label htmlFor="phone" className="block text-xs font-medium mb-1.5 text-ink">
+          Telefon Numarası <span className="text-muted font-normal">(opsiyonel)</span>
         </label>
         <input
           id="phone"
@@ -62,7 +76,7 @@ export default function RegisterForm({ next }: { next?: string }) {
       </div>
 
       <div>
-        <label htmlFor="password" className="block text-xs mb-1.5">
+        <label htmlFor="password" className="block text-xs font-medium mb-1.5 text-ink">
           Şifre
         </label>
         <input
@@ -77,22 +91,22 @@ export default function RegisterForm({ next }: { next?: string }) {
         />
       </div>
 
-      <label className="flex gap-2 items-start text-xs text-muted leading-[1.5]">
-        <input type="checkbox" name="kvkk" value="1" className="mt-0.5" />
+      <label className="flex gap-2.5 items-start text-xs text-muted leading-relaxed cursor-pointer select-none">
+        <input type="checkbox" name="kvkk" value="1" required className="mt-0.5 rounded accent-gold" />
         <span>
-          <Link href="/yasal#kvkk">KVKK Aydınlatma Metni</Link>&apos;ni okudum,
+          <Link href="/yasal#kvkk" className="text-gold font-medium hover:underline">KVKK Aydınlatma Metni</Link>&apos;ni okudum,
           kişisel verilerimin işlenmesini kabul ediyorum.
         </span>
       </label>
 
       <SubmitButton
-        pendingLabel="Hesap oluşturuluyor…"
-        variant="primary"
-        shape="sharp"
+        pendingLabel="Hesap Oluşturuluyor &amp; Yönlendiriliyor…"
+        variant="gold"
+        shape="pill"
         block
-        className="mt-1"
+        className="mt-2 py-3.5 font-semibold tracking-wider text-xs apple-press shadow-md"
       >
-        Hesap Oluştur
+        Hesap Oluştur ve Başla →
       </SubmitButton>
     </form>
   );

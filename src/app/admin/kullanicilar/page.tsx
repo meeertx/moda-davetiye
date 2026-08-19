@@ -6,16 +6,16 @@ import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { formatDate } from "@/lib/orders";
 
-export const metadata: Metadata = { title: "Kullanıcılar" };
+export const metadata: Metadata = { title: "Kullanıcı Yönetimi" };
 
-const gridCols = "grid grid-cols-[1.8fr_1fr_1fr_1fr] min-w-[640px]";
+const gridCols = "grid grid-cols-[1.8fr_1fr_1fr_1fr] min-w-[680px]";
 
 export default async function AdminKullanicilarPage() {
   if (!isSupabaseConfigured) {
     return (
       <AdminShell>
-        <h1 className="font-display font-medium text-[32px] m-0 mb-8">
-          Kullanıcılar
+        <h1 className="font-display font-medium text-3xl sm:text-4xl text-ink m-0 mb-8 tracking-tight">
+          Kullanıcı Yönetimi
         </h1>
         <NotConfiguredNotice />
       </AdminShell>
@@ -24,8 +24,6 @@ export default async function AdminKullanicilarPage() {
 
   const supabase = await createClient();
 
-  // RLS: "Admin tüm profilleri görebilir" politikası sayesinde hepsi döner.
-  // Sipariş sayısı için ayrı sorgu — profiles→orders ilişkisi üzerinden say.
   const [profilesRes, ordersRes] = await Promise.all([
     supabase
       .from("profiles")
@@ -41,58 +39,65 @@ export default async function AdminKullanicilarPage() {
 
   return (
     <AdminShell>
-      <div className="flex justify-between items-baseline mb-6">
-        <h1 className="font-display font-medium text-[32px] m-0">
-          Kullanıcılar
-        </h1>
-        <div className="text-[13px] text-muted">
-          {profiles.length} kayıtlı kullanıcı
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4 pb-6 border-b border-gold/15">
+        <div>
+          <div className="text-[11.5px] font-semibold tracking-[0.18em] uppercase text-gold mb-1">
+            KULLANICI VERİ TABANI
+          </div>
+          <h1 className="font-display font-medium text-3xl sm:text-4xl text-ink m-0 tracking-tight">
+            Kullanıcılar &amp; Üyeler
+          </h1>
+        </div>
+        <div className="px-4 py-2 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-semibold tracking-wider">
+          {profiles.length} Kayıtlı Kullanıcı
         </div>
       </div>
 
       {profilesRes.error && (
-        <div className="text-sm text-danger-fg mb-4">
+        <div className="text-sm text-danger-fg mb-4 glass-luxury p-4 rounded-xl border border-danger-fg/30">
           Kullanıcılar yüklenemedi: {profilesRes.error.message}
         </div>
       )}
 
-      <div className="bg-paper-alt border border-line-panel rounded-[10px] overflow-x-auto">
+      {/* User Table */}
+      <div className="glass-luxury rounded-2xl border border-gold/25 overflow-hidden shadow-sm">
         <div
-          className={`${gridCols} px-5 py-3.5 text-xs tracking-[0.03em] uppercase text-muted border-b border-line-panel`}
+          className={`${gridCols} px-6 py-4 text-xs tracking-wider uppercase text-gold font-semibold border-b border-gold/15 bg-gold/5`}
         >
-          <div>Ad Soyad</div>
+          <div>Müşteri / Üye İsim</div>
           <div>Telefon</div>
-          <div>Sipariş</div>
+          <div>Toplam Sipariş</div>
           <div>Kayıt Tarihi</div>
         </div>
 
         {!profiles.length ? (
-          <div className="px-5 py-10 text-center text-sm text-muted">
-            Henüz kayıtlı kullanıcı yok.
+          <div className="px-6 py-12 text-center text-sm text-muted font-light">
+            Henüz kayıtlı kullanıcı bulunmuyor.
           </div>
         ) : (
           profiles.map((u) => (
             <div
               key={u.id}
-              className={`${gridCols} px-5 py-3.5 text-[13.5px] border-b border-line-soft items-center`}
+              className={`${gridCols} px-6 py-4 text-sm border-b border-gold/10 items-center text-ink hover:bg-gold/10 transition-colors`}
             >
-              <div className="flex items-center gap-2.5 min-w-0">
-                <span className="truncate">{u.full_name || "(isimsiz)"}</span>
-                {u.role === "admin" && <Badge tone="ok">Admin</Badge>}
+              <div className="flex items-center gap-3 min-w-0 font-medium">
+                <div className="w-8 h-8 rounded-full bg-gold/10 border border-gold/30 text-gold flex items-center justify-center font-bold text-xs shrink-0">
+                  {(u.full_name || "M").charAt(0).toUpperCase()}
+                </div>
+                <span className="truncate">{u.full_name || "(İsimsiz Müşteri)"}</span>
+                {u.role === "admin" && <Badge tone="ok">★ Admin</Badge>}
               </div>
-              <div className="text-muted">{u.phone || "—"}</div>
-              <div>{orderCount.get(u.id) ?? 0}</div>
-              <div className="text-muted">{formatDate(u.created_at)}</div>
+              <div className="text-muted text-xs">{u.phone || "—"}</div>
+              <div className="font-semibold text-gold">{orderCount.get(u.id) ?? 0} Sipariş</div>
+              <div className="text-xs text-muted font-light">{formatDate(u.created_at)}</div>
             </div>
           ))
         )}
       </div>
 
-      <p className="text-xs text-muted mt-4">
-        E-posta adresleri güvenlik gereği burada listelenmiyor; sipariş detay
-        sayfasında ilgili müşterinin adresini görebilirsiniz. Rol değişikliği
-        için: <code>npm run admin -- &lt;eposta&gt;</code>
-      </p>
+      <div className="glass-luxury p-4 rounded-xl border border-gold/20 mt-6 text-xs text-muted leading-relaxed font-light">
+        🔒 E-posta adresleri güvenlik gereği burada listelenmemektedir; sipariş detay sayfasında ilgili müşterinin e-posta adresine erişebilirsiniz. Yetkili kullanıcı atamak için terminal üzerinden <code>npm run admin -- &lt;eposta&gt;</code> komutunu çalıştırabilirsiniz.
+      </div>
     </AdminShell>
   );
 }
